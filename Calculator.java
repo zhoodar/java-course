@@ -1,10 +1,17 @@
+/**
+ * Класс реализует Калкулятор
+ *
+ */
 public class Calculator{
+	/**
+	* Результат вычисления.
+	*/
 	private int result;
 	
 	/**
-	   addition 
-	   @param params Аргументы суммирования
-	*/
+	 addition objects 
+	 @param params Аргументы суммирования
+	 */
 	public void add(int... params)
 	{
 		for(Integer param : params)
@@ -13,40 +20,67 @@ public class Calculator{
 		}
 	}
 	/**
-		subtraction		
-	*/
-	public void subtraction(int i, int j)
+	 * subtraction objects	
+	 * @param first,second Аргументы вычитания
+	 */
+	public void subtraction(int first, int second)
 	{		
-		this.result = i-j;		
+		this.result = first-second;		
 	}
 	/**
-		multiply
-
-	*/
-	public void multiply(int i, int j)
-	{		
-		this.result = i*j;	
+	 * multiply objects
+	 * @param args  income arguments
+	 */
+	public void multiply(int... args)
+	{	
+		for(Integer param : args)
+			this.result *= param;	
 	}
 	/**
-		division	
-	*/
-	public void division(int i, int j)
-	{
-		this.result = i/j;
+	 * division objects
+	 * @param args income arguments
+	 * @throws UserException throw, if no args or division by 0
+	 */
+	public void division(int... args) throws UserException{
+		if(args.length > 0)
+		{
+			this.result = args[0];
+			for(int index=1;index!=args.length;++index)
+			{
+				if(args[index] != 0)
+				{
+					this.result /= args[index];
+				} else	{
+					throw new UserException("Error, you try to divide by 0");
+				}
+			}			
+		} else {
+			throw new UserException("Error, You should enter at least two args!");
+		}
 	}
 	/**
-	   Get the result
-	   @return result
-	*/
+	 Get the result
+	 @return result
+	 */
 	public int getResult()
 	{
 		return this.result;
 	}
 	/**
-		cleaning the result calculation
-	*/
+	 Cleaning the result of calculation
+	 */
 	public void cleanResult()
 	{
 		this.result =0;
 	}
+}
+/**
+ * Class UserException to handle exeptions 
+ */
+class UserException extends Exception {
+    
+    public UserException(String s) {
+		super(s);
+    }
+	
 }
