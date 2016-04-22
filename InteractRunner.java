@@ -1,10 +1,12 @@
 import java.util.Scanner;
 /**
-
+ Калсс для запуска калькулятор. 
+ Подерживает ввод пользователя и выбор оператор
  */
 public class InteractRunner {
     public static void main (String[] arg)
     {
+		
         Scanner reader = new Scanner(System.in);
         try
         {
@@ -34,10 +36,8 @@ public class InteractRunner {
                         System.out.println("Enter first arg : ");
                         first = reader.next();
                     }
-                }
-                else
-                {
-					System.out.println("Hey, let's Calculate ;)");
+                } else  {
+					System.out.println("Hey, let's Calculate :)");
                     System.out.println("Enter first arg : ");
                     first = reader.next();
                     System.out.println("Enter second arg : ");
@@ -45,7 +45,7 @@ public class InteractRunner {
                 }
 				
 
-                System.out.println("Choose function?: * | / | + | - ");
+                System.out.println("Choose operand: * . / . + . - ");
                 String functionality = reader.next();
                 
                 switch(functionality){
@@ -59,7 +59,13 @@ public class InteractRunner {
                         calc.multiply(Integer.valueOf(first),Integer.valueOf(second));
                         break;
                     case("/"):
-                        calc.division(Integer.valueOf(first),Integer.valueOf(second));
+                        try{
+							calc.division(Integer.valueOf(first),Integer.valueOf(second));	
+						}catch(UserException e){
+							System.out.println(e.getMessage());
+						}
+						
+						
                         break;
                 }
 
@@ -74,7 +80,7 @@ public class InteractRunner {
             }
 			System.out.println("Chao-Chao, if you need some help, you know where I am )) :)");
 
-        }finally {
+        } finally {
             reader.close();
         }
     }
