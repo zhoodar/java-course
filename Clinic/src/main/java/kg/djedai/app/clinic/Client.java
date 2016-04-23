@@ -1,4 +1,4 @@
-package kg.djedai.app;
+package kg.djedai.app.clinic;
 /**
  * класс реализует Клиент
  * @author Zhoodar Djedai
