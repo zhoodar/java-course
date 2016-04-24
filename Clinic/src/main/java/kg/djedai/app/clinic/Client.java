@@ -24,7 +24,7 @@ package kg.djedai.app.clinic;
      * @return Имя питомца
      */
 
-    public String getName(){
+    public String getPetName(){
         return String.format("%s", this.pet.getName());
     }
 
@@ -34,6 +34,10 @@ package kg.djedai.app.clinic;
      */
     public String getId(){
         return this.id;
+    }
+
+    public String toString(){
+        return String.format("%s%s",this.getId(), this.getPet());
     }
  
  }
