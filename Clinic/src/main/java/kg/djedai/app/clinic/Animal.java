@@ -2,7 +2,7 @@ package kg.djedai.app.clinic;
 /**
  * Class Dog 
  */
-public class Animal implements Pet{
+public  class Animal implements Pet{
 	/**
 	 * Name 
 	 */
@@ -15,13 +15,14 @@ public class Animal implements Pet{
 	public Animal(final String name){
 		this.name = name;
 	}
-	
-	/**
-	 *{@inheritDoc}
-	 *@return
-	 */
-	@Override
-	public String getName() {
-		return  this.getName();
-	}
+
+    /**
+     *{@inheritDoc}
+     *@return
+     */
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
 }
