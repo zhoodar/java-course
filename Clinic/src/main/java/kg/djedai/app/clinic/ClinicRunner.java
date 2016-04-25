@@ -51,9 +51,9 @@ public class ClinicRunner{
      * Меню выборки функциональности
      */
     public void callMenu(){
-        System.out.println("\t*********************************************************************************************************");
-        System.out.print("\t* 1.Добавить || 2.Удалить || 3.Найти || 4.Переименовать || 5.Показат польностью || 6.Выйти || 7.Пробный * \n");
-        System.out.println("\t*********************************************************************************************************");
+        System.out.println("****************************************************************************");
+        System.out.println("* 1.Добавить*2.Удалить*3.Найти*4.Переименовать*5.Показат*6.Выйти*7.Пробный * ");
+        System.out.println("****************************************************************************");
     }
 
     /**
@@ -110,12 +110,12 @@ public class ClinicRunner{
      */
     public void addTestButton(){
         String answer;
-        System.out.println("\tЕсли добавите пробную базу, все вашы данные будет удалены.\nХотите добавить пробную базу? y/n ");
+        System.out.println(" Если будуте добавить пробные данные, все вашы данные будет удалены.\n Хотите добавить пробный даннных? y/n ");
         while(true) {
             answer = this.reader.next();
             if (answer.equals("y")) {
                 TestDataInClinic();
-                System.out.println("\tПробная База дабавлена!\n");
+                System.out.println("\tПробная База данных дабавлена!\n");
                 break;
             } else if (answer.equals("n")) {
                 System.out.println(" \n");
@@ -165,9 +165,9 @@ public class ClinicRunner{
      */
     public void showAllButton(){
         if(clinic.getNumberOfClients()==-1) {
-            System.out.println("База пуст! Сначала добавьте Клиента или Попробуйте пробуную базу!");
+            System.out.println("Нет данных для покза! Сначала добавьте Клиента или Попробуйте 'пробные данные'!");
         } else {
-            System.out.println("База есть эти данные!");
+            System.out.println("В Базе есть эти данные!\n");
             clinic.toPrint(clinic.getClients());
         }
     }
@@ -177,7 +177,7 @@ public class ClinicRunner{
      */
     public void reNameButton() {
         if(clinic.getNumberOfClients()==-1) {
-            System.out.println("База пуст! Сначала добавьте Клиента или Попробуйте пробуную базу!");
+            System.out.println("Нет данных для изминения! Сначала добавьте Клиента или Попробуйте 'пробные данные'!");
         } else {
             System.out.println("Введите имя клиента которого хотите переименовать!");
             String oldName = this.reader.next();
@@ -196,7 +196,7 @@ public class ClinicRunner{
      */
     public void removeButton(){
         if(clinic.getNumberOfClients()==-1) {
-            System.out.println("База пуст! Сначала добавьте Клиента или Попробуйте пробуную базу!");
+            System.out.println("Нет данных для удаления! Сначала добавьте Клиента или Попробуйте 'пробные данные'!");
         } else {
             System.out.println("Введите имя клиента которого хотите удалить!");
             String name = this.reader.next();
@@ -208,7 +208,7 @@ public class ClinicRunner{
     //Найти клиента
     public void findClientButton(){
         if(clinic.getNumberOfClients()==-1) {
-            System.out.println("База пуст! Сначала добавьте Клиента или Попробуйте пробуную базу");
+            System.out.println("Нет данных ! Сначала добавьте Клиента или Попробуйте 'пробные данные'!");
         } else {
             System.out.println("Введите имя клиента которого хотите найти!");
             String name = this.reader.next();
