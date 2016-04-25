@@ -52,7 +52,7 @@ package kg.djedai.app.clinic;
      * @return массив найденного объекта
      */
     public Client[] findClientById(final String id){
-        int position=0;
+        int position=-1;
         for(int j=0; j<this.clients.length; j++){
             if( this.clients[j] != null && this.clients[j].getId().equals(id) ){
                 position=j;
@@ -139,9 +139,12 @@ package kg.djedai.app.clinic;
      * @return int
      */
     public int getNumberOfClients(){
-        int counter=0;
-        for(int j =0;j<this.clients.length;j++){
-            counter++;
+        int counter=-1;
+        if(this.clients.length>0){
+            for(int j =0;j<this.clients.length;j++){
+                if(this.clients[j]!=null)
+                counter++;
+            }
         }
         return counter;
     }
