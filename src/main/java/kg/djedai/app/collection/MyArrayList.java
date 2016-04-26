@@ -1,0 +1,100 @@
+package kg.djedai.app.collection;
+
+/**
+ * Created by Zhoodar on 26.04.2016.
+ * Implementation of ArrayList
+ */
+public class MyArrayList<E> {
+    /**
+     * Размер массив-списка
+     */
+    private int size;
+    /**
+     *  Размер по умолчанию массив-списка
+     */
+    private final int DEFAULT_CAPACITY = 10;
+
+    /**
+     * Хранилище значеный
+     */
+    private Object[] elementData={};
+
+    /**
+     * Конструктор пустой списка с размерю поумолчанию
+     */
+    public MyArrayList(){
+        this.elementData = (E[]) new Object[DEFAULT_CAPACITY];
+    }
+
+    /**
+     * Конструктор пустого списка с конкретной минимум емкости
+     * @param capacity конкретный размер списка
+     */
+    public MyArrayList(int capacity){
+        if(capacity>0)
+            this.elementData = (E[]) new Object[capacity];
+    }
+    /**
+     * Добавляет конкретного элемента в конце этого списка
+     * @param value элемент который должен добалятся в этот список
+     */
+    public void add(E value){
+        ensureCapacity(size+1);
+        this.elementData[size++]=value;
+    }
+
+    /**
+     * Вставляет конкретного значения в конкретную позицию в этого списка.
+     * @param index канкетрная позиция где должно всталятся конкертный элемент
+     * @param value элемент которой должно добавится
+     */
+    public void add(int index, E value){
+        ensureCapacity(size+1);
+        System.arraycopy(elementData, index, elementData, index + 1, size - index);
+        elementData[index] = value;
+        size++;
+    }
+
+    /**
+     * Увеличивает емкость списка, если необходима, чтобы
+     * уверять что этот список будет хранит минимум чисел
+     * элементов утачненый в аргументе minCapacity
+     * @param minCapaсity желанный минимум емкость
+     */
+    public void ensureCapacity(int minCapaсity){
+        Object[] oldData={};
+        int oldCapacity=elementData.length;
+        int newCapacity = (oldCapacity * 3) / 2 + 1;
+        if(oldCapacity<minCapaсity) {
+            this.elementData=oldData;
+            this.elementData= (E[]) new Object[newCapacity];
+            System.arraycopy(oldData, 0, elementData, 0, size);
+        }
+    }
+
+    /**
+     * Удаляет елемент в конкретном позиции в листе
+     * @param index позция элемента которго должен удалится
+     */
+    public void remove(int index){
+        int numMoved = size - index - 1;
+        System.arraycopy(elementData, index + 1, elementData, index, numMoved);
+        elementData[--size] = null;
+    }
+
+    /**
+     * Удаляет первый найденный элемент  из этого списка
+     * @param value элемент который должно удалится из списка
+     * @return true если эсть такой элемент в списке
+     */
+    public boolean remove(E value){
+        for (int index = 0; index < size; index++)
+            if (value.equals(elementData[index])) {
+                remove(index);
+                return true;
+            }
+        return false;
+    }
+
+
+}
