@@ -1,18 +1,16 @@
 package kg.djedai.app.collection;
 
+import java.util.Iterator;
+
 /**
  * Created by Zhoodar on 26.04.2016.
  * Implementation of ArrayList
  */
-public class MyArrayList<E> {
+public class MyArrayList<E> implements MyList<E> {
     /**
      * Размер массив-списка
      */
     private int size;
-    /**
-     *  Размер по умолчанию массив-списка
-     */
-    private final int DEFAULT_CAPACITY = 10;
 
     /**
      * Хранилище значеный
@@ -20,10 +18,10 @@ public class MyArrayList<E> {
     private Object[] elementData={};
 
     /**
-     * Конструктор пустой списка с размерю поумолчанию
+     * Конструктор пустой список с размерю поумолчанию 10
      */
     public MyArrayList(){
-        this.elementData = (E[]) new Object[DEFAULT_CAPACITY];
+        this.elementData = (E[]) new Object[10];
     }
 
     /**
@@ -96,5 +94,43 @@ public class MyArrayList<E> {
         return false;
     }
 
+    /**
+     * Возрврашет текуший размер листа
+     * @return размер листа
+     */
+    public int size(){
+        return this.size;
+    }
+
+    /**
+     * Возврашает элемент из листа с конкретной позиции
+     * @param index позиция
+     * @return элемент из листа с конкретной позиции
+     */
+    public Object get(int index){
+        return this.elementData[index];
+    }
+
+    /**
+     * Возврашает iterator над данным листом
+     * @return iterator
+     */
+    @Override
+    public Iterator<E> iterator() {
+
+        return new Iterator<E>() {
+
+            private int curentIndex = 0 ;
+            @Override
+            public boolean hasNext() {
+                return curentIndex < size && elementData[curentIndex] != null;
+            }
+
+            @Override
+            public E next() {
+                return (E) elementData[curentIndex++];
+            }
+        };
+    }
 
 }
