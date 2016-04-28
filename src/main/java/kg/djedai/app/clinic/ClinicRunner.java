@@ -110,7 +110,7 @@ public class ClinicRunner{
      */
     public void addTestButton(){
         String answer;
-        System.out.println(" Если будуте добавить пробные данные, все вашы данные будет удалены.\n Хотите добавить пробный даннных? y/n ");
+        System.out.println(" Если будуте добавить пробные данные, все вашы данные будет удалены.\n Хотите добавить пробные даннные? y/n ");
         while(true) {
             answer = this.reader.next();
             if (answer.equals("y")) {
@@ -215,7 +215,7 @@ public class ClinicRunner{
             if(clinic.findClientById(name)!=null) {
                 System.out.println("Найденно!");
                 clinic.toPrint(clinic.findClientById(name));
-            } else {System.out.println("Не Найденно!");}
+            } else {System.out.println("Не Найденно! Введите правильную Имю!");}
         }
     }
 
