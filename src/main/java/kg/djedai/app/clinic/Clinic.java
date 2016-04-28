@@ -59,6 +59,8 @@ package kg.djedai.app.clinic;
                 break;
             }
         }
+        if(position<0)
+            return null;
         return new Client[]{this.clients[position]};
     }
 
@@ -103,10 +105,12 @@ package kg.djedai.app.clinic;
      * @param clients массив клиентов
      */
     public void  toPrint(Client[] clients){
+        int counter=0;
         for(Client client : clients){
+            counter++;
             if(client !=null) {
                 Pet pet = client.getPet();
-                System.out.print("Client: " + client.getId());
+                System.out.print("Client "+counter+": " + client.getId());
                 if(pet != null){
                     System.out.println(", pet: "+pet.getName());
                 }
