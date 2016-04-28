@@ -138,25 +138,26 @@ public class ClinicRunner{
         if(number==MAX_CLIENTS) number--;
         System.out.println("Введите Имя клиента: ");
         inputClient = this.reader.next();
-        System.out.println("У клиента кошка или собака: cat/dog ");
-        classPet=this.reader.next();
         while(true){
-            if(classPet.equals("cat")){
-                System.out.println("Введите имя кошки: ");
-                namePet = this.reader.next();
-                Cat cat = new Cat(namePet);
-                clinic.addClient(number,new Client(inputClient,cat));
+            System.out.println("У клиента кошка или собака: cat/dog ");
+            classPet=this.reader.next();
+            if(classPet.equals("cat") || classPet.equals("dog"))
                 break;
-            } else if(classPet.equals("dog")){
-                System.out.println("Введите имя собаки: ");
-                namePet = this.reader.next();
-                Dog dog = new Dog(new Animal(namePet));
-                clinic.addClient(number, new Client(inputClient, dog));
-                break;
-            } else {
-                System.out.println("Введите правильно: cat/dog ");
-            }
+            else
+                System.out.println("Введите правильно!");
         }
+        if(classPet.equals("cat")){
+            System.out.println("Введите имя кошки: ");
+            namePet = this.reader.next();
+            Cat cat = new Cat(namePet);
+            clinic.addClient(number,new Client(inputClient,cat));
+        } else if(classPet.equals("dog")){
+            System.out.println("Введите имя собаки: ");
+            namePet = this.reader.next();
+            Dog dog = new Dog(new Animal(namePet));
+            clinic.addClient(number, new Client(inputClient, dog));
+        }
+
         System.out.println("\tКлиент успешно добавлен! ");
     }
 
