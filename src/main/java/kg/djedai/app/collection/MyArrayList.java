@@ -1,6 +1,7 @@
 package kg.djedai.app.collection;
 
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * Created by Zhoodar on 26.04.2016.
@@ -13,7 +14,7 @@ public class MyArrayList<E> implements MyList<E> {
     private int size;
 
     /**
-     * Хранилище значеный
+     * Хранилище елементов
      */
     private Object[] elementData={};
 
@@ -107,8 +108,8 @@ public class MyArrayList<E> implements MyList<E> {
      * @param index позиция
      * @return элемент из листа с конкретной позиции
      */
-    public Object get(int index){
-        return this.elementData[index];
+    public E get(int index){
+        return (E)this.elementData[index];
     }
 
     /**
@@ -120,17 +121,27 @@ public class MyArrayList<E> implements MyList<E> {
 
         return new Iterator<E>() {
 
-            private int curentIndex = 0 ;
             @Override
             public boolean hasNext() {
-                return curentIndex < size && elementData[curentIndex] != null;
+                return false;
             }
 
             @Override
             public E next() {
-                return (E) elementData[curentIndex++];
+                return null;
+            }
+
+            @Override
+            public void remove() {
+
+            }
+
+            @Override
+            public void forEachRemaining(Consumer<? super E> action) {
+
             }
         };
     }
+
 
 }
