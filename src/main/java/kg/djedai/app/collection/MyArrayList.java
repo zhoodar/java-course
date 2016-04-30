@@ -113,6 +113,29 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
+     * Заменяеть элемент в конкретной позиции в листе
+     * @param index индекс заменяюшего элемента
+     * @param element элемент заменител
+     * @return
+     */
+    public boolean set(int index, E element) {
+        if(index<size) {
+            elementData[index] = element;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * возраешеть элемент в позиции
+     * @param index позиция элемета
+     * @return элемент
+     */
+    E elementData(int index) {
+        return (E) elementData[index];
+    }
+
+    /**
      * Возврашает iterator над данным листом
      * @return iterator
      */
