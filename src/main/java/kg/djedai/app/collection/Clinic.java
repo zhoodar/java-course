@@ -1,14 +1,12 @@
 package kg.djedai.app.collection;
 
 
-import java.util.Iterator;
-
 /**
  * Описания клиника.
  * @author Zhoodar Djedai
  * @since 22.04.2016
  */
- public class Clinic {
+public class Clinic {
 	 
 	/**
 	 * Список клиентов
@@ -31,8 +29,6 @@ import java.util.Iterator;
        return this.clients;
     }
 
-
-
 	/**
 	 * Добавить клиента.
 	 * @param client добавляемый объект Клиент
@@ -42,13 +38,22 @@ import java.util.Iterator;
 	}
 	/**
 	 * Найти клиента по именни питомца
-	 * @param name 
+	 * @param petName имя питомца
 	 * @return массив найденного объекта
 	 */
-	public MyArrayList<Client> findClientByPetName(final String name){
-		int position=0;
-
-        return new MyArrayList<Client>(){};
+	public MyArrayList<Client> findClientByPetName(final String petName){
+        int position=-1;
+        for ( int j =0; j<this.clients.size();j++ ) {
+            if (clients.get(j) != null && clients.get(j).getPetName().equals(petName)){
+                position =j;
+            }
+        }
+        if(position>=0) {
+            MyArrayList<Client> returnClient = new MyArrayList<Client>(1);
+            returnClient.add(this.clients.get(position));
+            return returnClient;
+        }
+        return null;
 	}
 
     /**
@@ -57,11 +62,16 @@ import java.util.Iterator;
      * @return массив найденного объекта
      */
     public MyArrayList<Client> findClientById(final String id){
+        int position=-1;
         for ( int j =0; j<this.clients.size();j++ ) {
             if (clients.get(j) != null && clients.get(j).getId().equals(id)){
-                final int position =j;
-                return new MyArrayList<Client>(){Client client=new Client(clients.get(position).getId(),clients.get(position).getPet());};
+                position =j;
             }
+        }
+        if(position>=0) {
+            MyArrayList<Client> returnClient = new MyArrayList<Client>(1);
+            returnClient.add(this.clients.get(position));
+            return returnClient;
         }
         return null;
     }
@@ -89,12 +99,9 @@ import java.util.Iterator;
      */
     public boolean reNameClientName(final String oldName, final String newName){
         boolean isRenamed = false;
-        Client newClient = null;
         for(int j =0; j<this.clients.size(); j++) {
             if (clients.get(j) != null && clients.get(j).getId().equals(oldName)) {
-                newClient = new Client(newName, clients.get(j).getPet());
-
-                isRenamed = true;
+                isRenamed=clients.set(j,new Client(newName, clients.get(j).getPet()));
                 break;
             }
         }
@@ -102,7 +109,7 @@ import java.util.Iterator;
     }
 
     /**
-     * Печатать на экран введеного клитна(ов)
+     * Печатать на экран введеного клиента(ов)
      * @param clients массив клиентов
      */
     public void  toPrint(MyArrayList<Client> clients){
