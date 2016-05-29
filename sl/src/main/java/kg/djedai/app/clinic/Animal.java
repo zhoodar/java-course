@@ -20,7 +20,6 @@ public  class Animal implements Pet{
      *{@inheritDoc}
      *@return
      */
-    @Override
     public String getName() {
         return this.name;
     }

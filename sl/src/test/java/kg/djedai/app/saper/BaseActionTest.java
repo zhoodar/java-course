@@ -12,7 +12,7 @@ public class BaseActionTest {
     final BaseAction action = new BaseAction(
             new Easy(), new ConsoleBoard(),
             new GeneratorBoard(){
-                @Override
+
                 public Cell[][] generate(){
                     return new Cell[][]{
                             {new ConsoleCell(true),new ConsoleCell(false)},
@@ -24,7 +24,7 @@ public class BaseActionTest {
     @Test
     public void successGame(){
         action.initGame();
-        action.select(1,1,false);
+        action.select(0,0,false);
         action.select(1,0,false);
 
     }
