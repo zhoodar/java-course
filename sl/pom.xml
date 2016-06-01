@@ -34,12 +34,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-
+                <version>2.6</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>kg.djedai.app.clinic.ClinicRunner</mainClass>
+                            <mainClass>kg.djedai.app.calculator.InteractRunner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
