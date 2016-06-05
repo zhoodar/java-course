@@ -1,7 +1,7 @@
 package kg.djedai.store;
 
 
-import kg.djedai.app.clinic.Cat;
+
 import kg.djedai.models.ClientModel;
 
 import java.util.Collection;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Реализация паттерна Синглтон для webapp
@@ -21,6 +22,8 @@ public class ClientCache {
     private final ConcurrentHashMap<Integer, ClientModel> clients = new ConcurrentHashMap<Integer, ClientModel>();
 
     private final List<ClientModel> foundClient = new CopyOnWriteArrayList<ClientModel>();
+
+    private AtomicInteger id = new AtomicInteger();
 
     public static ClientCache getInstance(){
         return INSTANCE;
@@ -46,32 +49,36 @@ public class ClientCache {
         return this.clients.get(id);
     }
 
-    public List<ClientModel> findByFullName(final String client){
-        if(client !=  null) {
-            for (Map.Entry<Integer, ClientModel> entry : this.clients.entrySet()) {
-                if (entry.getValue().getNameClient().toLowerCase().equals(client.toLowerCase()) ||
-                        entry.getValue().getPetName().toLowerCase().equals(client.toLowerCase()))
-                    this.foundClient.add(entry.getValue());
-            }
+    public List<ClientModel> findByFullName(final String clientName){
+        this.foundClient.clear();
+        for (ClientModel client : this.clients.values()) {
+            if (client.getNameClient().toLowerCase().equals(clientName.toLowerCase()) ||
+                    client.getPetName().toLowerCase().equals(clientName.toLowerCase()))
+                this.foundClient.add(client);
         }
         return this.foundClient;
     }
 
     public int generateId(){
-        int count=0;
-        for(Map.Entry<Integer, ClientModel> entry: clients.entrySet()){
-           count++;
-        }
-        return count;
+      return this.id.getAndIncrement();
     }
 
-    public List<ClientModel> findByContain(final String client) {
-        if(client !=  null) {
-            for (Map.Entry<Integer, ClientModel> entry : clients.entrySet()) {
-                if (entry.getValue().getNameClient().toLowerCase().contains(client.toLowerCase())
-                        || entry.getValue().getPetName().toLowerCase().contains(client.toLowerCase()))
-                    this.foundClient.add(entry.getValue());
+    public List<ClientModel> findByContain(final String partName) {
+        this.foundClient.clear();
+        for (ClientModel client : this.clients.values()) {
+            for(int i=0; i< client.getPetName().length()-partName.length(); i++) {
+                if(partName.length()< client.getPetName().length()) {
+                    if (client.getPetName().substring(i, partName.length()).toLowerCase().equals(partName.toLowerCase()))
+                        this.foundClient.add(client);
+                }
             }
+            for(int i=0; i< client.getPetName().length()-partName.length(); i++) {
+                if(partName.length()< client.getNameClient().length()) {
+                    if (client.getNameClient().substring(i, partName.length()).toLowerCase().equals(partName.toLowerCase()))
+                        this.foundClient.add(client);
+                }
+            }
+
         }
         return this.foundClient;
     }
