@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,86 +22,93 @@ public class ClinicViewServlet  extends HttpServlet {
     private static final String VIEW = "/views/clinic/Index.jsp";
     private final ClientCache CLIENT = ClientCache.getInstance();
 
-    private final List<ClientModel> foundClient = new CopyOnWriteArrayList<ClientModel>();
-    private boolean isSearching = false;
-    private String nameForSearch = "";
+    private  List<ClientModel> foundClient = new CopyOnWriteArrayList<ClientModel>();
+
 
     /**
-     *
-     * @param req
-     * @param resp
+     * Обработка get-запросов
+     * @param req Запрос
+     * @param resp Ответ
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.processContentView(req);
-        forwardTo(req,resp,VIEW);
+        this.processContentView(req,resp);
+
     }
 
     /**
-     *
-     * @param req
-     * @param resp
+     * Обработка post-запросов
+     * @param req Запрос
+     * @param resp Ответ
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.processSearch(req);
-        this.nameForSearch = req.getParameter("name");
         doGet(req,resp);
     }
 
     /**
-     *
-     * @param req
+     * процес начало показа контентта
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
      */
-    private  void setDoGet(HttpServletRequest req){
-        req.setAttribute("results", this.foundClient);
-        req.setAttribute("content", req.getParameter("search") != null);
-
+    private void processContentView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.setAttributes(req);
+        forwardTo(req,resp,VIEW);
     }
 
     /**
-     *
-     * @param req
+     * установака атрубутов запроса Get
+     * @param req Запрос
+     */
+    private  void setAttributes(HttpServletRequest req){
+        req.setAttribute("results", foundClient);
+        req.setAttribute("content", req.getParameter("search") != null);
+    }
+
+    /**
+     * процес поиска, иницализация
+     * @param req Запрос
      */
     private void processSearch(HttpServletRequest req) {
+
         if (req.getParameter("search") != null) {
-            this.foundClient.clear();
-            this.isSearching = true;
+            if(!req.getParameter("name").equals("")) {
+                this.foundClient.clear();
+                this.foundClient.addAll(CLIENT.values());
+                this.findClient(req);
+            } else {
+                req.setAttribute("error", true);
+            }
         }
     }
 
     /**
-     *
-     * @param req
+     * найти клиента
+     * @param req Запрос
      */
-    private void processContentView(HttpServletRequest req) {
-        if(this.isSearching)
-            showResultOfSearch(req);
-        this.setDoGet(req);
-    }
-
-
-    /**
-     * показ резултат поиска
-     * @param req
-     */
-    private void showResultOfSearch(HttpServletRequest req) {
-        if(req.getParameter("typeSearch")!= null) {
-            this.foundClient.addAll(this.CLIENT.findByFullName(req.getParameter(req.getParameter("name"))));
-        } else {
-            this.foundClient.addAll(this.CLIENT.findByContain(req.getParameter(req.getParameter("name"))));
-        }
+    private void findClient(HttpServletRequest req) {
+        String searchName = req.getParameter("name");
+            if(!searchName.equals("")) {
+                if (req.getParameter("typeSearch") != null) {
+                    this.foundClient.retainAll(this.CLIENT.findByFullName(searchName));
+                } else {
+                    this.foundClient.retainAll(this.CLIENT.findByContain(searchName));
+            }
+       }
     }
 
     /**
-     *
-     * @param req
-     * @param resp
-     * @param path
+     * Перенаправление на указанный адреc
+     * @param req Запрос
+     * @param resp Ответ
+     * @param path Адрес
      * @throws ServletException
      * @throws IOException
      */
