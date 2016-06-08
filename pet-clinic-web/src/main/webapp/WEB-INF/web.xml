@@ -13,7 +13,7 @@
 
     <servlet-mapping>
         <servlet-name>ClinicViewServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/view</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -55,6 +55,7 @@
         <servlet-name>ClientDeleteServlet</servlet-name>
         <url-pattern>/client/delete</url-pattern>
     </servlet-mapping>
+
 
 
 </web-app>
