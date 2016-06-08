@@ -6,7 +6,6 @@ import kg.djedai.models.ClientModel;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,25 +59,15 @@ public class ClientCache {
     }
 
     public int generateId(){
-      return this.id.getAndIncrement();
+      return this.id.incrementAndGet();
     }
 
     public List<ClientModel> findByContain(final String partName) {
         this.foundClient.clear();
         for (ClientModel client : this.clients.values()) {
-            for(int i=0; i< client.getPetName().length()-partName.length(); i++) {
-                if(partName.length()< client.getPetName().length()) {
-                    if (client.getPetName().substring(i, partName.length()).toLowerCase().equals(partName.toLowerCase()))
-                        this.foundClient.add(client);
-                }
-            }
-            for(int i=0; i< client.getPetName().length()-partName.length(); i++) {
-                if(partName.length()< client.getNameClient().length()) {
-                    if (client.getNameClient().substring(i, partName.length()).toLowerCase().equals(partName.toLowerCase()))
-                        this.foundClient.add(client);
-                }
-            }
-
+            if(client.getNameClient().toLowerCase().indexOf(partName.toLowerCase())!= -1 ||
+                    client.getPetName().toLowerCase().indexOf(partName.toLowerCase())!= -1 )
+                this.foundClient.add(client);
         }
         return this.foundClient;
     }
