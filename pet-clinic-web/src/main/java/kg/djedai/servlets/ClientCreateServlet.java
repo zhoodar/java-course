@@ -23,7 +23,6 @@ public class ClientCreateServlet extends HttpServlet {
     private static final String CREATE = "/views/client/CreateClient.jsp";
 
     private final ClientCache CLIENT = ClientCache.getInstance();
-    private static int generatedId = 0;
 
 
     @Override
@@ -33,8 +32,7 @@ public class ClientCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        generatedId = this.CLIENT.generateId() + 1;
-        this.processAddClient(req, resp);
+        processAddClient(req, resp);
     }
 
     /**
@@ -52,23 +50,24 @@ public class ClientCreateServlet extends HttpServlet {
     }
 
     private void processAddClient(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getParameter("add")!= null)
-           this.addClient(req,resp);
+        if(req.getParameter("add")!= null) {
+            addClient(req, resp);
+        }
     }
 
     private void addClient(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.CLIENT.addClient(this.createClient(req));
-        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/"));
+        this.CLIENT.addClient(createClient(req));
+        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
     }
 
     private ClientModel createClient(HttpServletRequest req) throws ServletException, IOException{
         ClientModel created = null;
         if(req.getParameter("typePet").equals("cat")) {
-            created = new ClientModel(generatedId,req.getParameter("nameClient"),
+            created = new ClientModel(this.CLIENT.generateId(),req.getParameter("nameClient"),
                     new Cat(req.getParameter("namePet")));
         }
         if(req.getParameter("typePet").equals("dog")) {
-            created = new ClientModel(generatedId,req.getParameter("nameClient"),
+            created = new ClientModel(this.CLIENT.generateId(),req.getParameter("nameClient"),
                         new Dog(new Animal(req.getParameter("namePet"))));
         }
         return created;

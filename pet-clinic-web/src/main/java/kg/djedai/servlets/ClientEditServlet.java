@@ -33,8 +33,8 @@ public class ClientEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.CLIENT.editClient(this.newClient(req));
-        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/"));
+        this.CLIENT.editClient(newClient(req));
+        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
     }
 
 

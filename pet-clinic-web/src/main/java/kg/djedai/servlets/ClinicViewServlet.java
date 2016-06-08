@@ -34,7 +34,7 @@ public class ClinicViewServlet  extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.processContentView(req,resp);
+        processContentView(req,resp);
 
     }
 
@@ -47,7 +47,7 @@ public class ClinicViewServlet  extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.processSearch(req);
+        processSearch(req);
         doGet(req,resp);
     }
 
@@ -59,7 +59,7 @@ public class ClinicViewServlet  extends HttpServlet {
      * @throws IOException
      */
     private void processContentView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.setAttributes(req);
+        setAttributes(req);
         forwardTo(req,resp,VIEW);
     }
 
@@ -82,7 +82,7 @@ public class ClinicViewServlet  extends HttpServlet {
             if(!req.getParameter("name").equals("")) {
                 this.foundClient.clear();
                 this.foundClient.addAll(CLIENT.values());
-                this.findClient(req);
+                findClient(req);
             } else {
                 req.setAttribute("error", true);
             }
