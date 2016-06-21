@@ -1,74 +1,89 @@
 package kg.djedai.store;
 
 
-
+import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Реализация паттерна Синглтон для webapp
  * @author Zhoodar
  * @since 01.06.2016.
  */
-public class ClientCache {
+public class ClientCache implements Storage{
+
     private static final ClientCache INSTANCE = new ClientCache();
 
-    private final ConcurrentHashMap<Integer, ClientModel> clients = new ConcurrentHashMap<Integer, ClientModel>();
-
-    private final List<ClientModel> foundClient = new CopyOnWriteArrayList<ClientModel>();
-
-    private AtomicInteger id = new AtomicInteger();
+    private final Storage storage = new JdbcStorage();
 
     public static ClientCache getInstance(){
         return INSTANCE;
     }
 
-    public Collection<ClientModel> values(){
-        return this.clients.values();
+    @Override
+    public Collection<ClientModel> getClients(){
+        return this.storage.getClients();
     }
 
+    @Override
     public void addClient(final ClientModel client){
-        this.clients.put(client.getId(),client);
+        this.storage.addClient(client);
     }
 
-    public void deleteClient(final int id){
-        this.clients.remove(id);
+    @Override
+    public void deleteClient(final String id){
+        this.storage.deleteClient(id);
     }
 
+    @Override
     public void editClient(final ClientModel client){
-        this.clients.replace(client.getId(),client);
+        this.storage.editClient(client);
     }
 
-    public ClientModel get(final int id){
-        return this.clients.get(id);
+    @Override
+    public ClientModel get(final String id){
+        return this.storage.get(id);
     }
 
+    @Override
+    public ClientModel getLastClient(){
+        return this.storage.getLastClient();
+    }
+
+    @Override
     public List<ClientModel> findByFullName(final String clientName){
-        this.foundClient.clear();
-        for (ClientModel client : this.clients.values()) {
-            if (client.getNameClient().toLowerCase().equals(clientName.toLowerCase()) ||
-                    client.getPetName().toLowerCase().equals(clientName.toLowerCase()))
-                this.foundClient.add(client);
-        }
-        return this.foundClient;
+       return this.storage.findByFullName(clientName);
     }
 
-    public int generateId(){
-      return this.id.incrementAndGet();
+    @Override
+    public String generateId(){
+      return this.storage.generateId();
     }
 
+    @Override
     public List<ClientModel> findByContain(final String partName) {
-        this.foundClient.clear();
-        for (ClientModel client : this.clients.values()) {
-            if(client.getNameClient().toLowerCase().indexOf(partName.toLowerCase())!= -1 ||
-                    client.getPetName().toLowerCase().indexOf(partName.toLowerCase())!= -1 )
-                this.foundClient.add(client);
-        }
-        return this.foundClient;
+        return this.storage.findByContain(partName);
     }
+
+    public void close() {
+    }
+
+    @Override
+    public void addPetToClient(int type, String namePet , String idClient) {
+        this.storage.addPetToClient(type,namePet, idClient);
+    }
+
+    @Override
+    public List<Pet> getPetCurrentClient(String idCurrentClient) {
+        return this.storage.getPetCurrentClient(idCurrentClient);
+    }
+
+    @Override
+    public void deletePetCurrentClient(String idCurrentClient, String petName) {
+        this.storage.deletePetCurrentClient(idCurrentClient, petName);
+    }
+
 }
