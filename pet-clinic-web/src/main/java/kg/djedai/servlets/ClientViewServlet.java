@@ -37,19 +37,6 @@ public class ClientViewServlet extends HttpServlet {
         doGet(req,resp);
     }
 
-    private void fillClientWithPet() {
-        this.readyClients.clear();
-        String id;
-        for(ClientModel client : this.CLIENT.getClients()){
-            id = client.getId();
-            for(Pet pet :this.CLIENT.getPetCurrentClient(id)) {
-                client.setPets(pet);
-            }
-            this.readyClients.add(client);
-        }
-    }
-
-
     /**
      *
      * @param req
