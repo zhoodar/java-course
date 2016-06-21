@@ -57,18 +57,16 @@
         <h3>Все клиенты</h3>
         <table  class="table-content"  >
             <tr>
-                <td > <b>№</b> </td>
-                <td > <b>Имя клиента</b> </td>
-                <td > <b>Имя питомца</b> </td>
-                <td > <b>Вид питомца</b> </td>
+                <td > <b>Id</b> </td>
+                <td > <b>Ф.И. клиента</b> </td>
+                <td > <b>Кол-во животных</b> </td>
             </tr>
             <c:forEach items="${clients}" var="client" varStatus="status">
                 <tr>
                     <td >${client.id} </td>
                     <td ><a href="${pageContext.servletContext.contextPath}/client/edit?id=${client.id}">${client.nameClient}</a> </td>
-                    <td >${client.pet.getName()}</td>
-                    <td >${client.pet.getClass().getSimpleName()}</td>
-                    <td style="border:0"><a href="${pageContext.servletContext.contextPath}/client/delete?id=${client.id}"  about="delete" ><font style="color: red;">x</font>  </a></td>
+                    <td >${client.getPet().size()}</td>
+                    <td style="border:0"><a href="${pageContext.servletContext.contextPath}/client/delete?id=${client.id}"><font style="color: red;">x</font>  </a></td>
                 </tr>
             </c:forEach>
         </table>

@@ -63,16 +63,14 @@
                 <c:when test="${results.size() > 0}">
                     <table class="table-content">
                         <tr>
-                            <td> Имя клиента </td>
-                            <td> Имя питомца </td>
-                            <td> Вид питомца </td>
+                            <td> <b>Ф.И. клиента</b> </td>
+                            <td> <b>Кол-во животных</b> </td>
                             <td> Действие </td>
                         </tr>
                         <c:forEach items="${results}" var="result" varStatus="status">
                             <tr>
                                 <td>${result.nameClient} </td>
-                                <td>${result.pet.getName()}</td>
-                                <td>${result.pet.getClass().getSimpleName()}</td>
+                                <td >${result.getPet().size()}</td>
                                 <td><a href="${pageContext.servletContext.contextPath}/client/edit?id=${result.id}">edit</a></td>
                             </tr>
                         </c:forEach>

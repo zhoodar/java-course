@@ -55,33 +55,74 @@
 
     <div class="content">
 
+
         <h3>Редактировать клиента</h3>
         <div class="edit-content">
             <form action="${pageContext.servletContext.contextPath}/client/edit" method="POST">
                 <input type="hidden" name="id" value="${client.id}">
                 <table>
                     <tr>
-                        <td> Имя клиента </td>
-                        <td> Имя питомца </td>
-                        <td> Вид питомца </td>
+                        <td> Ф.И клиента </td>
+                        <td> ID клиента </td>
                     </tr>
                     <tr>
                         <td> <input type="text" name="nameClient" value="${client.nameClient}" class="content-text"></td>
-                        <td> <input type="text" name="namePet" value="${client.pet.getName()}" class="content-text"></td>
-                        <td>
-                            <select  name="typePet" class="content-dropdown">
-                                <option value="cat">Кошка</option><br>
-                                <option value="dog">Собака</option><br>
-                            </select>
-                        </td>
+                        <td> ${client.id}</td>
                     </tr>
 
                 </table>
                 <div>
-                    <input type="submit" value="Сохранить" class="content-button">
+                    <input type="submit" value="Изменить" class="content-button" name="save">
                 </div>
             </form>
         </div>
+        <div class="form-div">
+            <b>Добавить нового животного к клиенту</b>
+                <form action="${pageContext.servletContext.contextPath}/client/edit" method="POST">
+                    <input type="hidden" name="id" value="${client.id}">
+                    <div>
+                        <label> Имя питомца: </label>
+                        <input type="text" name="petName" class="content-text">
+                    </div>
+                    <div>
+                        <label>Выберите питомца: </label>
+                        <select  name="typePet" class="content-dropdown">
+                            <option value="cat">Кошка</option>
+                            <option value="dog">Собака</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="submit" value="Добавить" name="addPet" class="content-button">
+                    </div>
+                </form>
+
+            </div>
+            <b>Список живтных:</b><br><br>
+            <table class="table-content">
+                <tr>
+                    <td> <b>Имя животного </b> </td>
+                    <td> <b>Тип </b> </td>
+                    <td> <b>Цвет </b> </td>
+                    <td> <b>Возрасть </b> </td>
+                    <td> <div style="width: 120px;"> <b>Причина</b> </div> </td>
+                </tr>
+                <form action="${pageContext.servletContext.contextPath}/client/delete" method="post">
+                    <input type="hidden" name="id" value="${client.id}">
+                    <c:forEach items="${pets}" var="pet" varStatus="status">
+                    <tr>
+                        <td> ${pet.getName()}</td>
+                        <td> ${pet.getClass().getSimpleName()}</td>
+                        <input type="hidden" name="petName" value="${pet.getName()}">
+                        <td></td>
+                        <td> </td>
+                        <td> </td>
+                        <td style="border:0"><input type="submit" value="x" class="little-button"></td>
+                    </tr>
+                    </c:forEach>
+                </form>
+            </table>
+
+
     </div>
 </div>
 </body>

@@ -80,7 +80,6 @@
 
 .control-panel {
     float:left;
-    height:250px;
     width:157px;
     background:white;
     border:1px solid #E8E9E7;
@@ -102,7 +101,6 @@
 .content {
     background:white;
     margin-left:170px;
-    height:62%;
     padding:11px;
     border:1px solid #E8E9E7;
     margin-top:65px;
@@ -154,6 +152,20 @@
     border:1px solid #cecece;
     background-color:#FBFBFB;
 }
+
+.little-button{
+    width: 10px;
+    height: 17px;
+    padding:0;
+    border:1px solid #fff;
+    background-color: #fff;
+    color: #49D39C;
+}
+
+.little-button:hover{
+    color: #ff0000;
+}
+
 .form-div{
     width:400px;
 }
