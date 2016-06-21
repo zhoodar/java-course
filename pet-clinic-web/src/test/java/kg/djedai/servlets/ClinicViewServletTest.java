@@ -18,14 +18,15 @@ import static org.junit.Assert.*;
  *@author Zhoodar
  * @since 05.06.2016.
  */
+
 public class ClinicViewServletTest extends Mockito {
 
     final ClientCache clinic = ClientCache.getInstance();
 
 
-    @Test
+@Test
     public void testClinicViewSearch() throws ServletException, IOException {
-        this.clinic.addClient(new ClientModel(1,"test_Client",new Cat("testPet")));
+        this.clinic.addClient(new ClientModel("1","test_Client"));
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
@@ -35,8 +36,6 @@ public class ClinicViewServletTest extends Mockito {
         when(request.getParameter("typeSearch")).thenReturn("on");
         when(request.getRequestDispatcher("/views/clinic/Index.jsp")).thenReturn(dispatcher);
 
-        assertEquals(1,this.clinic.findByFullName("test_Client").size());
-
         new ClinicViewServlet().doPost(request,response);
 
         verify(request, atLeast(1)).getParameter("search");
@@ -44,17 +43,18 @@ public class ClinicViewServletTest extends Mockito {
         verify(request, atLeast(1)).getParameter("typeSearch");
         verify(dispatcher).forward(request, response);
 
-        this.clinic.deleteClient(1);
+        this.clinic.deleteClient("1");
 
     }
 
     @Test
     public void testClinicViewEmptySearch() throws  ServletException, IOException {
-        this.clinic.addClient(new ClientModel(1,"test_Client",new Cat("testPet")));
+        this.clinic.addClient(new ClientModel("1","test_Client"));
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+
         when(request.getParameter("search")).thenReturn("test");
         when(request.getParameter("name")).thenReturn("");
         when(request.getParameter("typeSearch")).thenReturn("");
@@ -67,9 +67,28 @@ public class ClinicViewServletTest extends Mockito {
         verify(request, atLeast(0)).getParameter("typeSearch");
         verify(dispatcher).forward(request, response);
 
-        this.clinic.deleteClient(1);
+        this.clinic.deleteClient("1");
     }
 
+    @Test
+    public void testClinicViewSearchContain() throws  ServletException, IOException {
+        this.clinic.addClient(new ClientModel("1","test_Client"));
 
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+
+        when(request.getParameter("search")).thenReturn("test");
+        when(request.getParameter("name")).thenReturn("te");
+        when(request.getParameter("typeSearch")).thenReturn(null);
+        when(request.getRequestDispatcher("/views/clinic/Index.jsp")).thenReturn(dispatcher);
+
+        new ClinicViewServlet().doPost(request,response);
+
+        verify(request, atLeast(1)).getParameter("search");
+        verify(request, atLeast(1)).getParameter("name");
+        verify(request, atLeast(1)).getParameter("typeSearch");
+        verify(dispatcher).forward(request, response);
+    }
 
 }

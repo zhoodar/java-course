@@ -12,9 +12,12 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by User on 04.06.2016.
+/*
+ * @author Zhoodar
+ * @since 06.06.2016.
  */
+
+
 public class ClientCreateServletTest extends Mockito{
 
     final ClientCache cache = ClientCache.getInstance();
@@ -29,7 +32,7 @@ public class ClientCreateServletTest extends Mockito{
         when(request.getParameter("typePet")).thenReturn("cat");
         when(request.getParameter("namePet")).thenReturn("test");
 
-        assertTrue(cache.values().isEmpty());
+        assertTrue(cache.getClients().isEmpty());
 
         new ClientCreateServlet().doPost(request,response);
 
@@ -37,7 +40,7 @@ public class ClientCreateServletTest extends Mockito{
         verify(request,atLeast(1)).getParameter("typePet");
         verify(request,atLeast(1)).getParameter("namePet");
 
-        assertFalse(cache.values().isEmpty());
+        assertFalse(cache.getClients().isEmpty());
 
     }
 
