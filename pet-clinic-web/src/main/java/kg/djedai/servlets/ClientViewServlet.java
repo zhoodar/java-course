@@ -1,5 +1,7 @@
 package kg.djedai.servlets;
 
+import kg.djedai.app.clinic.Pet;
+import kg.djedai.models.ClientModel;
 import kg.djedai.store.ClientCache;
 
 import javax.servlet.RequestDispatcher;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Zhoodar
@@ -18,18 +22,33 @@ public class ClientViewServlet extends HttpServlet {
 
     private static final String VIEW = "/views/client/ClientView.jsp";
     private final ClientCache CLIENT = ClientCache.getInstance();
+    private final List<ClientModel> readyClients = new ArrayList<>();
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("clients", CLIENT.values());
+        req.setAttribute("clients", this.CLIENT.getClients());
         forwardTo(req,resp, VIEW);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req,resp);
     }
+
+    private void fillClientWithPet() {
+        this.readyClients.clear();
+        String id;
+        for(ClientModel client : this.CLIENT.getClients()){
+            id = client.getId();
+            for(Pet pet :this.CLIENT.getPetCurrentClient(id)) {
+                client.setPets(pet);
+            }
+            this.readyClients.add(client);
+        }
+    }
+
 
     /**
      *

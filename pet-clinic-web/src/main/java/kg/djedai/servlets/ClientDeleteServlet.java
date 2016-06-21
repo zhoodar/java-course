@@ -18,7 +18,13 @@ public class ClientDeleteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.CLIENT.deleteClient(Integer.valueOf(req.getParameter("id")));
+        this.CLIENT.deleteClient((req.getParameter("id")));
         resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.CLIENT.deletePetCurrentClient(req.getParameter("id"), req.getParameter("petName"));
+        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/client/edit?id="+req.getParameter("id")));
     }
 }

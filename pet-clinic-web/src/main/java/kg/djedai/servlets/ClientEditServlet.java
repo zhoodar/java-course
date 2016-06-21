@@ -3,6 +3,7 @@ package kg.djedai.servlets;
 import kg.djedai.app.clinic.Animal;
 import kg.djedai.app.clinic.Cat;
 import kg.djedai.app.clinic.Dog;
+import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
 import kg.djedai.store.ClientCache;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
 
 /**
  * @author Zhoodar
@@ -23,18 +24,44 @@ public class ClientEditServlet extends HttpServlet {
     private static final String EDIT = "/views/client/EditClient.jsp";
 
     private final ClientCache CLIENT = ClientCache.getInstance();
+    private String ID_CURRENT_CLIENT;
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("client", this.CLIENT.get(Integer.valueOf(req.getParameter("id"))));
+        ID_CURRENT_CLIENT = req.getParameter("id");
+        setAttributes(req);
         forwardTo(req,resp,EDIT);
     }
 
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.CLIENT.editClient(newClient(req));
-        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
+        processEdit(req , resp);
+        processAddPet(req, resp);
+    }
+
+    private void setAttributes(HttpServletRequest req) {
+        req.setAttribute("client", this.CLIENT.get(this.ID_CURRENT_CLIENT));
+        req.setAttribute("pets", this.CLIENT.getPetCurrentClient(this.ID_CURRENT_CLIENT)) ;
+    }
+
+    private void processEdit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if(req.getParameter("save")!= null){
+            this.CLIENT.editClient(newClient(req));
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
+        }
+    }
+
+    private void processAddPet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getParameter("addPet")!= null) {
+            this.CLIENT.addPetToClient(getType(req),req.getParameter("petName"),this.ID_CURRENT_CLIENT);
+            doGet(req, resp);
+        }
+    }
+
+    private int getType(HttpServletRequest req) {
+        return (req.getParameter("typePet").equals("cat"))? 2 : 1;
     }
 
 
@@ -53,15 +80,11 @@ public class ClientEditServlet extends HttpServlet {
     }
 
     private ClientModel newClient(HttpServletRequest req){
-        ClientModel created = null;
-        if(req.getParameter("typePet").equals("cat")) {
-            created = new ClientModel(Integer.parseInt(req.getParameter("id")),req.getParameter("nameClient"),
-                    new Cat(req.getParameter("namePet")));
+        List<Pet> pets = this.CLIENT.get(this.ID_CURRENT_CLIENT).getPet();
+        ClientModel client = new ClientModel(req.getParameter("id"),req.getParameter("nameClient"));
+        for(Pet pet : pets) {
+            client.setPets(pet);
         }
-        if(req.getParameter("typePet").equals("dog")) {
-            created = new ClientModel(Integer.parseInt(req.getParameter("id")),req.getParameter("nameClient"),
-                    new Dog(new Animal(req.getParameter("namePet"))));
-        }
-        return created;
+        return  client;
     }
 }

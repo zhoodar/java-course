@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -64,11 +63,11 @@ public class ClinicViewServlet  extends HttpServlet {
     }
 
     /**
-     * установака атрубутов запроса Get
+     * установака атрибутов запроса Get
      * @param req Запрос
      */
     private  void setAttributes(HttpServletRequest req){
-        req.setAttribute("results", foundClient);
+        req.setAttribute("results", this.foundClient);
         req.setAttribute("content", req.getParameter("search") != null);
     }
 
@@ -81,7 +80,6 @@ public class ClinicViewServlet  extends HttpServlet {
         if (req.getParameter("search") != null) {
             if(!req.getParameter("name").equals("")) {
                 this.foundClient.clear();
-                this.foundClient.addAll(CLIENT.values());
                 findClient(req);
             } else {
                 req.setAttribute("error", true);
@@ -97,9 +95,9 @@ public class ClinicViewServlet  extends HttpServlet {
         String searchName = req.getParameter("name");
             if(!searchName.equals("")) {
                 if (req.getParameter("typeSearch") != null) {
-                    this.foundClient.retainAll(this.CLIENT.findByFullName(searchName));
+                    this.foundClient.addAll(this.CLIENT.findByFullName(searchName));
                 } else {
-                    this.foundClient.retainAll(this.CLIENT.findByContain(searchName));
+                    this.foundClient.addAll(this.CLIENT.findByContain(searchName));
             }
        }
     }
