@@ -1,8 +1,5 @@
 package kg.djedai.servlets;
 
-import kg.djedai.app.clinic.Animal;
-import kg.djedai.app.clinic.Cat;
-import kg.djedai.app.clinic.Dog;
 import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
 import kg.djedai.store.ClientCache;
@@ -24,28 +21,48 @@ public class ClientEditServlet extends HttpServlet {
     private static final String EDIT = "/views/client/EditClient.jsp";
 
     private final ClientCache CLIENT = ClientCache.getInstance();
-    private String ID_CURRENT_CLIENT;
 
-
+    /**
+     * Обработка get-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ID_CURRENT_CLIENT = req.getParameter("id");
         setAttributes(req);
         forwardTo(req,resp,EDIT);
     }
 
-
+    /**
+     * Обработка post-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processEdit(req , resp);
         processAddPet(req, resp);
     }
 
+    /**
+     * Установеление атрибутов для показа
+     * @param req запрос
+     */
     private void setAttributes(HttpServletRequest req) {
-        req.setAttribute("client", this.CLIENT.get(this.ID_CURRENT_CLIENT));
-        req.setAttribute("pets", this.CLIENT.getPetCurrentClient(this.ID_CURRENT_CLIENT)) ;
+        req.setAttribute("client", this.CLIENT.getClientById(req.getParameter("id")));
+        req.setAttribute("pets", this.CLIENT.getPetCurrentClient(req.getParameter("id"))) ;
     }
 
+    /**
+     * Редактирвание клиента
+     * @param req запрос
+     * @param resp ответ
+     * @throws IOException
+     */
     private void processEdit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if(req.getParameter("save")!= null){
             this.CLIENT.editClient(newClient(req));
@@ -53,13 +70,25 @@ public class ClientEditServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Добавление нового животного к текушему клиенту
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     private void processAddPet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getParameter("addPet")!= null) {
-            this.CLIENT.addPetToClient(getType(req),req.getParameter("petName"),this.ID_CURRENT_CLIENT);
+            this.CLIENT.addPetToClient(getType(req),req.getParameter("petName"),req.getParameter("id"));
             doGet(req, resp);
         }
     }
 
+    /**
+     * Получение типа животного
+     * @param req запрос
+     * @return int тип
+     */
     private int getType(HttpServletRequest req) {
         return (req.getParameter("typePet").equals("cat"))? 2 : 1;
     }
@@ -79,8 +108,13 @@ public class ClientEditServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    /**
+     * Редактирование объекта клиент и прекрыпление всех животных к созданному клиенту
+     * @param req запрос
+     * @return редактированный клиент
+     */
     private ClientModel newClient(HttpServletRequest req){
-        List<Pet> pets = this.CLIENT.get(this.ID_CURRENT_CLIENT).getPet();
+        List<Pet> pets = this.CLIENT.getClientById(req.getParameter("id")).getPet();
         ClientModel client = new ClientModel(req.getParameter("id"),req.getParameter("nameClient"));
         for(Pet pet : pets) {
             client.setPets(pet);

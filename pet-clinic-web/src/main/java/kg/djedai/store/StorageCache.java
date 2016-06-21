@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * Реализация интерфейса Storage изпользуя структуру данных HashMap
  * @author Zhoodar
  * @since 10.06.2016.
  */
@@ -44,7 +45,7 @@ public class StorageCache implements Storage {
     }
 
     @Override
-    public ClientModel get(String id) {
+    public ClientModel getClientById(String id) {
         return this.clients.get(id);
     }
 
@@ -102,17 +103,17 @@ public class StorageCache implements Storage {
             pet = new Cat(petName);
         else
             pet = new Dog(new Animal(petName));
-        get(idClient).setPets(pet);
+        getClientById(idClient).setPets(pet);
     }
 
     @Override
     public List<Pet> getPetCurrentClient(String idCurrentClient) {
-        return get(idCurrentClient).getPet();
+        return getClientById(idCurrentClient).getPet();
     }
 
     @Override
     public void deletePetCurrentClient(String idCurrentClient, String petName) {
-        List<Pet> pets = get(idCurrentClient).getPet();
+        List<Pet> pets = getClientById(idCurrentClient).getPet();
         for(Pet pet : pets ){
             if(pet.getName().equals(petName))
                 pets.remove(pet);

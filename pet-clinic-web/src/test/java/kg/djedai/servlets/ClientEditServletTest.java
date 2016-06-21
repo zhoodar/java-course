@@ -38,7 +38,7 @@ public class ClientEditServletTest extends Mockito {
         when(request.getContextPath()).thenReturn("/pcw/view");
         when(request.getRequestDispatcher("/views/client/EditClient.jsp")).thenReturn(dispatcher);
 
-        assertFalse(clinic.get("1").getNameClient().equals("editedClient"));
+        assertFalse(clinic.getClientById("1").getNameClient().equals("editedClient"));
 
         new ClientEditServlet().doPost(request,response);
 
@@ -48,7 +48,7 @@ public class ClientEditServletTest extends Mockito {
         verify(request, atLeast(1)).getParameter("addPet");
         verify(request,atLeast(1)).getContextPath();
 
-        assertTrue(clinic.get("1").getNameClient().equals("editedClient"));
+        assertTrue(clinic.getClientById("1").getNameClient().equals("editedClient"));
         this.clinic.deleteClient("1");
 
     }

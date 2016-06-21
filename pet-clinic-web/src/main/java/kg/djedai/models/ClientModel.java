@@ -30,10 +30,6 @@ public class ClientModel {
         return this.pets;
     }
 
-
-//    public String getPetName(){
-//        return String.format("%s", this.pets.get  );
-//    }
     /**
      * Для нахождение id клиента
      * @return id

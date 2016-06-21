@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * Реализация интерфейса Storage изпользуя JDBC
  * @author Zhoodar
  * @since 10.06.2016.
  */
@@ -83,7 +84,7 @@ public class JdbcStorage implements Storage {
     }
 
     @Override
-    public ClientModel get(String id) {
+    public ClientModel getClientById(String id) {
         try( final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM client WHERE  client.index=(?)")) {
             statement.setString(1,id);
             try(final ResultSet rs = statement.executeQuery()){

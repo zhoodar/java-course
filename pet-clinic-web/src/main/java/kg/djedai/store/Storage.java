@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Интерфейс для удобного изменение место обработки данных
  * @author Zhoodar
  * @since 10.06.2016.
  */
@@ -41,55 +42,58 @@ public interface Storage {
      * @param id объекта client
      * @return получаемый ClientModel
      */
-    public ClientModel get(final String id);
+    public ClientModel getClientById(final String id);
 
     /**
-     *
+     *  Получить послендый добпаленого клиента
+     * @return Обеък клиент
      */
     public ClientModel getLastClient();
 
     /**
-     *
-     * @param clientName
-     * @return
+     *  Найти клиента веденной
+     * @param clientName полная имя
+     * @return список найденных клиентов
      */
     public List<ClientModel> findByFullName(final String clientName) ;
 
     /**
-     *
-     * @param partName
-     * @return
+     * Найти клиента по части
+     * @param partName часть искаемого слово
+     * @return список найденных клиентов
      */
     public List<ClientModel> findByContain(final String partName);
 
     /**
-     *
+     * Генерирует уникалный ID для всех клиентов
      * @return
      */
     public String generateId();
 
     /**
-     *
+     * Закрывет сессию connection
      */
     public void close();
 
 
     /**
-     *
-     * @param type
-     * @param namePet
+     * добавить нового животного к клиенту
+     * @param type животного
+     * @param namePet имя животного
+     * @param idClient клиента
      */
     public void addPetToClient(int type, String namePet, String idClient);
 
     /**
-     *
+     * получить всех животных клиента с введеный id
      * @param idCurrentClient
      */
     public List<Pet> getPetCurrentClient(String idCurrentClient);
 
     /**
-     *
-     * @param idCurrentClient
+     * удоляет животного из клиента
+     * @param idCurrentClient клиента
+     * @param petName имя удоляемого животного
      */
     public void deletePetCurrentClient(String idCurrentClient, String petName);
 }

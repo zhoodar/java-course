@@ -1,11 +1,7 @@
 package kg.djedai.store;
 
-import kg.djedai.app.clinic.Cat;
-import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -39,9 +35,9 @@ public class JdbcStorageTest {
         String id = storage.generateId();
         String editedName="EditedClient";
         storage.addClient(new ClientModel(id,nameClient));
-        assertFalse(storage.get(id).getNameClient().equals(editedName));
+        assertFalse(storage.getClientById(id).getNameClient().equals(editedName));
         storage.editClient(new ClientModel(id,editedName));
-        assertTrue(storage.get(id).getNameClient().equals(editedName));
+        assertTrue(storage.getClientById(id).getNameClient().equals(editedName));
         storage.close();
     }
 
@@ -61,7 +57,7 @@ public class JdbcStorageTest {
         storage.deletePetCurrentClient(id,"reks");
         storage.deleteClient(id);
         assertTrue(storage.getPetCurrentClient(id).isEmpty());
-        assertTrue(storage.get(id) == null);
+        assertTrue(storage.getClientById(id) == null);
         storage.close();
 
     }

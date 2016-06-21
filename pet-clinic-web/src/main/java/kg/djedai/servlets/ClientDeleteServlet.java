@@ -16,12 +16,26 @@ public class ClientDeleteServlet extends HttpServlet {
 
     private final ClientCache CLIENT = ClientCache.getInstance();
 
+    /**
+     * Обработка get-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.CLIENT.deleteClient((req.getParameter("id")));
         resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/view"));
     }
 
+    /**
+     * Обработка post-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.CLIENT.deletePetCurrentClient(req.getParameter("id"), req.getParameter("petName"));

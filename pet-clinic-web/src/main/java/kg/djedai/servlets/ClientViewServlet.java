@@ -22,8 +22,14 @@ public class ClientViewServlet extends HttpServlet {
 
     private static final String VIEW = "/views/client/ClientView.jsp";
     private final ClientCache CLIENT = ClientCache.getInstance();
-    private final List<ClientModel> readyClients = new ArrayList<>();
 
+    /**
+     * Обработка get-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,16 +38,23 @@ public class ClientViewServlet extends HttpServlet {
     }
 
 
+    /**
+     * Обработка post-запросов
+     * @param req Запрос
+     * @param resp Ответ
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req,resp);
     }
 
     /**
-     *
-     * @param req
-     * @param resp
-     * @param path
+     * Перенаправление на указанный адреc
+     * @param req Запрос
+     * @param resp Ответ
+     * @param path Адрес
      * @throws ServletException
      * @throws IOException
      */

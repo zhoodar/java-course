@@ -17,7 +17,7 @@ public class ClientCache implements Storage{
 
     private static final ClientCache INSTANCE = new ClientCache();
 
-    private final Storage storage = new JdbcStorage();
+    private final Storage storage = new StorageCache();
 
     public static ClientCache getInstance(){
         return INSTANCE;
@@ -44,8 +44,8 @@ public class ClientCache implements Storage{
     }
 
     @Override
-    public ClientModel get(final String id){
-        return this.storage.get(id);
+    public ClientModel getClientById(final String id){
+        return this.storage.getClientById(id);
     }
 
     @Override
