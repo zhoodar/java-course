@@ -114,7 +114,7 @@ public class ClientEditServlet extends HttpServlet {
      * @return редактированный клиент
      */
     private ClientModel newClient(HttpServletRequest req){
-        List<Pet> pets = this.CLIENT.getClientById(req.getParameter("id")).getPet();
+        List<Pet> pets = this.CLIENT.getClientById(req.getParameter("id")).getPets();
         ClientModel client = new ClientModel(req.getParameter("id"),req.getParameter("nameClient"));
         for(Pet pet : pets) {
             client.setPets(pet);
