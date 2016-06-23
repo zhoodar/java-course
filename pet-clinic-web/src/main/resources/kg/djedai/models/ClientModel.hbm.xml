@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD/EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="kg.djedai.models.ClientModel" table="client">
+        <meta attribute="class-description">
+            This class contains the Client details
+        </meta>
+
+        <id name="id" type="string" column="index">
+        </id>
+        <property name="nameClient" column="fullname" type="string"/>
+    </class>
+</hibernate-mapping>
