@@ -55,7 +55,7 @@ public interface Storage {
      * @param clientName полная имя
      * @return список найденных клиентов
      */
-    public List<ClientModel> findByFullName(final String clientName) ;
+    public List findByFullName(final String clientName) ;
 
     /**
      * Найти клиента по части

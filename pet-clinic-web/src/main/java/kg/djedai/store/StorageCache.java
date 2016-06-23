@@ -62,7 +62,7 @@ public class StorageCache implements Storage {
         for (ClientModel client : getClients()) {
             if (client.getNameClient().toLowerCase().equals(clientName.toLowerCase()) )
                 this.foundClient.add(client);
-            for(Pet pet: client.getPet()){
+            for(Pet pet: client.getPets()){
                 if(pet.getName().toLowerCase().equals(clientName.toLowerCase()))
                     this.foundClient.add(client);
 
@@ -76,7 +76,7 @@ public class StorageCache implements Storage {
     public List<ClientModel> findByContain(String partName) {
         this.foundClient.clear();
         for (ClientModel client : getClients()) {
-            for(Pet pet: client.getPet()){
+            for(Pet pet: client.getPets()){
                 if(pet.getName().toLowerCase().indexOf(partName.toLowerCase())!=-1)
                     this.foundClient.add(client);
 
@@ -108,12 +108,12 @@ public class StorageCache implements Storage {
 
     @Override
     public List<Pet> getPetCurrentClient(String idCurrentClient) {
-        return getClientById(idCurrentClient).getPet();
+        return getClientById(idCurrentClient).getPets();
     }
 
     @Override
     public void deletePetCurrentClient(String idCurrentClient, String petName) {
-        List<Pet> pets = getClientById(idCurrentClient).getPet();
+        List<Pet> pets = getClientById(idCurrentClient).getPets();
         for(Pet pet : pets ){
             if(pet.getName().equals(petName))
                 pets.remove(pet);

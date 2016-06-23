@@ -112,7 +112,7 @@ public class JdbcStorage implements Storage {
             if (client.getNameClient().toLowerCase().equals(clientName.toLowerCase())) {
                 this.foundClients.add(client);
             }
-            for(Pet pet: client.getPet()){
+            for(Pet pet: client.getPets()){
                 if(pet.getName().toLowerCase().equals(clientName.toLowerCase())){
                     this.foundClients.add(client);
                 }
@@ -125,7 +125,7 @@ public class JdbcStorage implements Storage {
     public List<ClientModel> findByContain(String partName) {
         this.foundClients.clear();
         for (ClientModel clt : getClients()) {
-            for(Pet pet: clt.getPet()){
+            for(Pet pet: clt.getPets()){
                 if(pet.getName().toLowerCase().indexOf(partName.toLowerCase())!=-1){
                     this.foundClients.add(clt);
                 }
