@@ -21,16 +21,16 @@ Main project in this course is an app manager for a Pet Clinic, which is constan
 
 **Add Client page:**
  
-![alt text](https://github.com/zhoodar/java-course/images/addclient.PNG)
+![alt text](https://github.com/zhoodar/java-course/raw/master/images/addclient.PNG)
 
 **Review all the clients from DB:**
 
-![alt text](https://github.com/zhoodar/java-course/images/clientview.PNG)
+![alt text](https://github.com/zhoodar/java-course/raw/master/images/clientview.PNG)
 
 **Editing the client:**
 
-![alt text](https://github.com/zhoodar/java-course/images/editclient.PNG)
+![alt text](https://github.com/zhoodar/java-course/raw/master/images/editclient.PNG)
 
 **Diagram of the database:**
 
-![alt text](https://github.com/zhoodar/java-course/images/dbpet_clinic.PNG)
+![alt text](https://github.com/zhoodar/java-course/raw/master/images/dbpet_clinic.PNG)
