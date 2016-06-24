@@ -84,15 +84,15 @@
                 <input type="text" name="nameClient" id="nameClient" class="content-text">
             </div>
             <div>
-                <label>Выберите питомца: </label>
+                <label> Имя питомца: </label>
+                <input type="text" name="namePet" class="content-text">
+            </div>
+            <div>
+                <label>Выберите вид питомца: </label>
                 <select  name="typePet" class="content-dropdown">
                     <option value="cat">Кошка</option>
                     <option value="dog">Собака</option>
                 </select>
-            </div>
-            <div>
-                <label> Имя питомца: </label>
-                <input type="text" name="namePet" class="content-text">
             </div>
             <div  >
                 <input type="submit" name="add" value="Добавить" class="content-button" onclick="return createClient();">

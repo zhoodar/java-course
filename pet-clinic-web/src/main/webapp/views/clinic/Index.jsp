@@ -70,7 +70,7 @@
                         <c:forEach items="${results}" var="result" varStatus="status">
                             <tr>
                                 <td>${result.nameClient} </td>
-                                <td >${result.getPet().size()}</td>
+                                <td >${result.getPets().size()}</td>
                                 <td><a href="${pageContext.servletContext.contextPath}/client/edit?id=${result.id}">edit</a></td>
                             </tr>
                         </c:forEach>

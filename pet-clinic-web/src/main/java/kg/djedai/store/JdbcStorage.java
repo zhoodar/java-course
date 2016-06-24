@@ -166,9 +166,8 @@ public class JdbcStorage implements Storage {
 
     @Override
     public void addPetToClient(int type, String petName, String idClient) {
-        String id = getLastClient().getId();
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT INTO pet (client_id , pet_type, nick ) VALUES (?, ?, ?)")) {
-            statement.setString(1, id);
+            statement.setString(1, idClient);
             statement.setInt(2, type);
             statement.setString(3, petName);
             statement.executeUpdate();

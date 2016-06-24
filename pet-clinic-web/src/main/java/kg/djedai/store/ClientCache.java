@@ -17,7 +17,7 @@ public class ClientCache implements Storage{
 
     private static final ClientCache INSTANCE = new ClientCache();
 
-    private final Storage storage = new StorageCache();
+    private final Storage storage = new JdbcStorage();
 
     public static ClientCache getInstance(){
         return INSTANCE;
