@@ -1,10 +1,10 @@
 package kg.djedai.servlets;
 
-import kg.djedai.app.clinic.Animal;
-import kg.djedai.app.clinic.Cat;
-import kg.djedai.app.clinic.Dog;
-import kg.djedai.app.clinic.Pet;
+
+import kg.djedai.models.Cat;
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Dog;
+import kg.djedai.models.Pet;
 import kg.djedai.store.ClientCache;
 
 import javax.servlet.RequestDispatcher;
@@ -87,16 +87,20 @@ public class ClientCreateServlet extends HttpServlet {
      * @param req запрос
      */
     private void addPetsToLastClient(HttpServletRequest req) {
-        this.CLIENT.addPetToClient( getType(req), req.getParameter("namePet"), this.idAddingClient);
+        this.CLIENT.addPetToClient( createPet(req), this.idAddingClient);
     }
 
     /**
      * получение тип животного
      * @param req запрос
-     * @return int тип
+     * @return объект Pet
      */
-    private int getType(HttpServletRequest req) {
-       return (req.getParameter("typePet").equals("cat"))? 2 : 1;
+    private Pet createPet(HttpServletRequest req) {
+        Pet pet;
+        if(req.getParameter("typePet").equals("cat")) {
+            pet = new Cat(req.getParameter("namePet"));
+        } else pet = new Dog(req.getParameter("namePet"));
+        return pet;
     }
 
 

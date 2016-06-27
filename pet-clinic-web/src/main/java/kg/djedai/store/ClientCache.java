@@ -1,8 +1,8 @@
 package kg.djedai.store;
 
 
-import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Pet;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +17,7 @@ public class ClientCache implements Storage{
 
     private static final ClientCache INSTANCE = new ClientCache();
 
-    private final Storage storage = new JdbcStorage();
+    private final Storage storage = new MemoryStorage();
 
     public static ClientCache getInstance(){
         return INSTANCE;
@@ -72,8 +72,8 @@ public class ClientCache implements Storage{
     }
 
     @Override
-    public void addPetToClient(int type, String namePet , String idClient) {
-        this.storage.addPetToClient(type,namePet, idClient);
+    public void addPetToClient(Pet pet, String idClient) {
+        this.storage.addPetToClient(pet, idClient);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package kg.djedai.models;
 
-import kg.djedai.app.clinic.Pet;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -14,7 +12,7 @@ public class ClientModel {
 
     private String nameClient;
     private String id ;
-    private final List<Pet> pets = new CopyOnWriteArrayList<>();
+    private List<Pet> pets;
 
     public ClientModel( String id, String nameClient) {
         this.id = id;
@@ -28,8 +26,12 @@ public class ClientModel {
      * метод чтобы узнат конкретных  питомцев
      * @return спсисок питомцев
      */
-    public List<Pet> getPets(){
-        return this.pets;
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 
     /**
