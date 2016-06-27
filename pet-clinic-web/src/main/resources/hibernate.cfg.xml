@@ -16,8 +16,10 @@
         <property name="hibernate.c3p0.max_statements">50</property>
         <property name="hibernate.c3p0.idle_test_period">1000</property>
         <property name="hibernate.c3p0.validate">true</property>
+        <property name="show_sql">true</property>
 
         <!-- List of XML mapping files -->
         <mapping resource="kg/djedai/models/ClientModel.hbm.xml"/>
+        <mapping resource="kg/djedai/models/Pet.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

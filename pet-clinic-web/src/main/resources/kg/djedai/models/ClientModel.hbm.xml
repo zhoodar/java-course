@@ -6,11 +6,14 @@
 <hibernate-mapping>
     <class name="kg.djedai.models.ClientModel" table="client">
         <meta attribute="class-description">
-            This class contains the Client details
+            This class contains the Client detail
         </meta>
 
-        <id name="id" type="string" column="index">
-        </id>
+        <id name="id" type="string" column="index"/>
         <property name="nameClient" column="fullname" type="string"/>
+        <bag name="pets" table="pet" lazy="false" inverse="true" cascade="all">
+            <key column="client_id" not-null="true" />
+            <one-to-many class="kg.djedai.models.Pet" />
+        </bag>
     </class>
 </hibernate-mapping>
