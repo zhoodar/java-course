@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD/EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="kg.djedai.models">
+    <class abstract="true" name="Pet" table="pet" >
+        <meta attribute="class description">
+            This class contains Pets detail
+        </meta>
+        <id name="id" type="int" column="pid">
+            <generator class="identity"/>
+        </id>
+        <discriminator column="pet_type" type="string"/>
+        <property name="name" type="string" column="nick"/>
+        <many-to-one name="clientModel" column="client_id" class="kg.djedai.models.ClientModel" cascade="all"/>
+        <subclass name="Dog" discriminator-value="1"/>
+        <subclass name="Cat" discriminator-value="2"/>
+
+    </class>
+
+</hibernate-mapping>
