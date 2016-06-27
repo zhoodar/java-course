@@ -1,7 +1,7 @@
 package kg.djedai.store;
 
-import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Pet;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -50,7 +50,14 @@ public class HibernateStorage implements Storage {
 
     @Override
     public void editClient(ClientModel client) {
-
+        final Session session = factory.openSession();
+        final Transaction tn = session.beginTransaction();
+        try {
+            session.update(client);
+        } finally {
+            tn.commit();
+            session.close();
+        }
     }
 
     @Override
@@ -58,7 +65,7 @@ public class HibernateStorage implements Storage {
         final Session session = factory.openSession();
         final Transaction tn = session.beginTransaction();
         try {
-            session.delete(new ClientModel(id,null));
+            session.delete(getClientById(id));
         } finally {
             tn.commit();
             session.close();
@@ -88,8 +95,12 @@ public class HibernateStorage implements Storage {
         final Session session = factory.openSession();
         final Transaction tn = session.beginTransaction();
         try {
-            final Query query = session.createQuery("from ClientModel  as client where client.nameClient =:clientName");
+            final Query query = session.createQuery(
+                    "from ClientModel as client inner join  client.pets as pet on " +
+                            "client.id = pet.clientModel.id where client.nameClient =:clientName or pet.name=:name"
+            );
             query.setString("clientName",clientName);
+            query.setString("name",clientName);
             return query.list();
         }
         finally {
@@ -100,31 +111,71 @@ public class HibernateStorage implements Storage {
 
     @Override
     public List<ClientModel> findByContain(String partName) {
-        return null;
+        final Session session = factory.openSession();
+        final Transaction tn = session.beginTransaction();
+        try {
+            final Query query = session.createQuery(
+                    "from ClientModel as client where lower(client.nameClient) like lower(:partName)"
+            );
+            query.setString("partName",partName);
+            return query.list();
+        }
+        finally {
+            tn.commit();
+            session.close();
+        }
     }
 
     @Override
     public String generateId() {
-        return null;
+        return RandomIdGenerator.getBase36(6);
     }
 
     @Override
     public void close() {
-
+        this.factory.close();
     }
 
     @Override
-    public void addPetToClient(int type, String namePet, String idClient) {
+    public void addPetToClient(Pet pet, String idClient) {
+        pet.setClientModel(getClientById(idClient));
+        final Session session = factory.openSession();
+        final Transaction tn = session.beginTransaction();
+        try {
+            session.save(pet);
+        }finally {
+            tn.commit();
+            session.close();
+        }
 
     }
 
     @Override
     public List<Pet> getPetCurrentClient(String idCurrentClient) {
-        return null;
+        final Session session = factory.openSession();
+        final Transaction tn = session.beginTransaction();
+        try {
+            final Query query = session.createQuery("from Pet as pet where pet.clientModel =:id");
+            query.setString("id",idCurrentClient);
+            return query.list();
+        } finally {
+            tn.commit();
+            session.close();
+        }
     }
 
     @Override
     public void deletePetCurrentClient(String idCurrentClient, String petName) {
-
+        final Session session = factory.openSession();
+        final Transaction tn = session.beginTransaction();
+        try {
+           final Query query = session.createQuery("delete Pet as pet where pet.clientModel=:id and pet.name=:name");
+            query.setString("id",idCurrentClient);
+            query.setString("name",petName);
+            query.executeUpdate();
+        } finally {
+            tn.commit();
+            session.close();
+        }
     }
 }

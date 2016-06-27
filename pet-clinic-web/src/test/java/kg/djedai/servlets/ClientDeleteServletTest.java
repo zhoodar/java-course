@@ -3,6 +3,8 @@ package kg.djedai.servlets;
 
 import kg.djedai.app.clinic.Cat;
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Dog;
+import kg.djedai.models.Pet;
 import kg.djedai.store.ClientCache;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -47,7 +49,8 @@ public class ClientDeleteServletTest extends Mockito{
     @Test
     public void testPetDelete()throws ServletException,IOException {
         this.clinic.addClient(new ClientModel("2","testCl"));
-        this.clinic.addPetToClient(2,"Bobik","2");
+        Pet pet = new Dog("Bobik");
+        this.clinic.addPetToClient(pet,"2");
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);

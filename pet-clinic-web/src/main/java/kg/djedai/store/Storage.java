@@ -1,7 +1,7 @@
 package kg.djedai.store;
 
-import kg.djedai.app.clinic.Pet;
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Pet;
 
 import java.util.Collection;
 import java.util.List;
@@ -78,11 +78,10 @@ public interface Storage {
 
     /**
      * добавить нового животного к клиенту
-     * @param type животного
-     * @param namePet имя животного
+     * @param pet животное
      * @param idClient клиента
      */
-    public void addPetToClient(int type, String namePet, String idClient);
+    public void addPetToClient(Pet pet, String idClient);
 
     /**
      * получить всех животных клиента с введеный id

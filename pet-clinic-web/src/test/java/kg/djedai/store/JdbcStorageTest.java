@@ -1,6 +1,8 @@
 package kg.djedai.store;
 
 import kg.djedai.models.ClientModel;
+import kg.djedai.models.Dog;
+import kg.djedai.models.Pet;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,13 +20,13 @@ public class JdbcStorageTest {
         final JdbcStorage storage = new JdbcStorage();
         String nameClient = "John";
         String id = storage.generateId();
-        String namePet = "labrador";
+        Pet pet = new Dog("labrador");
 
         storage.addClient(new ClientModel(id,nameClient));
-        storage.addPetToClient(2, namePet, id);
+        storage.addPetToClient(pet, id);
 
         assertFalse(storage.findByFullName(nameClient).isEmpty());
-        assertFalse(storage.findByFullName(namePet).isEmpty());
+        assertFalse(storage.findByFullName("labrador").isEmpty());
         storage.close();
     }
 
@@ -47,9 +49,10 @@ public class JdbcStorageTest {
         String nameClient = "Client";
         String id = storage.generateId();
         String namePet = "reks";
+        Pet pet = new Dog(namePet);
 
         storage.addClient(new ClientModel(id,nameClient));
-        storage.addPetToClient(1,namePet,id);
+        storage.addPetToClient(pet,id);
 
         assertFalse(storage.findByFullName(nameClient).isEmpty());
         assertFalse(storage.findByFullName(namePet).isEmpty());

@@ -18,7 +18,7 @@ public class Dog implements Pet {
 	 * {@inheritDoc}
 	 * @return
 	 */
-	@Override
+
 	public String getName() {
 		return  this.pet.getName();
 	}
