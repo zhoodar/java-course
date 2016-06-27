@@ -6,7 +6,7 @@ mentor Peter Arsentev
 - Java core, Java EE
 - OOP
 - JUnit
-- HTTP, Servlet, JSP
+- HTTP, Servlet, JSP , JSTL
 - Implementation MVC through servlets
 - Base syntax of SQL, JDBC, PostgreSQL
 - Hibernate
