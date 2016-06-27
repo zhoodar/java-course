@@ -1,15 +1,13 @@
 package kg.djedai.store;
 
-import kg.djedai.app.clinic.Animal;
-import kg.djedai.app.clinic.Cat;
-import kg.djedai.app.clinic.Dog;
-import kg.djedai.app.clinic.Pet;
+
+
+import kg.djedai.models.Pet;
 import kg.djedai.models.ClientModel;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Zhoodar
  * @since 10.06.2016.
  */
-public class StorageCache implements Storage {
+public class MemoryStorage implements Storage {
 
     private final ConcurrentHashMap<String, ClientModel> clients = new ConcurrentHashMap<>();
 
@@ -97,17 +95,12 @@ public class StorageCache implements Storage {
     }
 
     @Override
-    public void addPetToClient(int type, String petName,String idClient) {
-        Pet pet;
-        if(type == 2 )
-            pet = new Cat(petName);
-        else
-            pet = new Dog(new Animal(petName));
+    public void addPetToClient(Pet pet,String idClient) {
         getClientById(idClient).setPets(pet);
     }
 
     @Override
-    public List<Pet> getPetCurrentClient(String idCurrentClient) {
+    public List<kg.djedai.models.Pet> getPetCurrentClient(String idCurrentClient) {
         return getClientById(idCurrentClient).getPets();
     }
 
@@ -120,16 +113,5 @@ public class StorageCache implements Storage {
         }
     }
 
-    private static class RandomIdGenerator {
-        private static char[] _base62chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        private static Random _random = new Random();
 
-        public static String getBase36(int length){
-            StringBuilder sb = new StringBuilder(length);
-            for(int i=0; i<length;i++){
-                sb.append(_base62chars[_random.nextInt(36)]);
-            }
-            return sb.toString();
-        }
-    }
 }

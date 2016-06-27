@@ -1,9 +1,8 @@
 package kg.djedai.store;
 
-import kg.djedai.app.clinic.Animal;
-import kg.djedai.app.clinic.Cat;
-import kg.djedai.app.clinic.Dog;
-import kg.djedai.app.clinic.Pet;
+import kg.djedai.models.Cat;
+import kg.djedai.models.Dog;
+import kg.djedai.models.Pet;
 import kg.djedai.models.ClientModel;
 import kg.djedai.service.Settings;
 
@@ -165,7 +164,9 @@ public class JdbcStorage implements Storage {
     }
 
     @Override
-    public void addPetToClient(int type, String petName, String idClient) {
+    public void addPetToClient(Pet pet, String idClient) {
+        int type = pet.getType();
+        String petName = pet.getName();
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT INTO pet (client_id , pet_type, nick ) VALUES (?, ?, ?)")) {
             statement.setString(1, idClient);
             statement.setInt(2, type);
@@ -186,7 +187,7 @@ public class JdbcStorage implements Storage {
                   if(rs.getInt("pet_type") == 2){
                       pets.add(new Cat(rs.getString("nick")));
                   } else {
-                      pets.add(new Dog(new Animal(rs.getString("nick"))));
+                      pets.add(new Dog(rs.getString("nick")));
                   }
               }
           }
@@ -207,18 +208,5 @@ public class JdbcStorage implements Storage {
         }
     }
 
-
-    private static class RandomIdGenerator {
-        private static char[] _base62chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        private static Random _random = new Random();
-        
-        public static String getBase36(int length){
-            StringBuilder sb = new StringBuilder(length);
-            for(int i=0; i<length;i++){
-                sb.append(_base62chars[_random.nextInt(36)]);
-            }
-            return sb.toString();
-        }
-    }
 
 }
