@@ -96,7 +96,9 @@ public class MemoryStorage implements Storage {
 
     @Override
     public void addPetToClient(Pet pet,String idClient) {
-        getClientById(idClient).setPets(pet);
+        List<Pet> pets = new CopyOnWriteArrayList<>();
+        pets.add(pet);
+        getClientById(idClient).setPets(pets);
     }
 
     @Override

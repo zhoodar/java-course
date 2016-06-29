@@ -32,7 +32,6 @@ public class ClientCreateServletTest extends Mockito{
         when(request.getParameter("typePet")).thenReturn("cat");
         when(request.getParameter("namePet")).thenReturn("test");
 
-        assertTrue(cache.getClients().isEmpty());
 
         new ClientCreateServlet().doPost(request,response);
 

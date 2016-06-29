@@ -27,6 +27,8 @@ public class JdbcStorageTest {
 
         assertFalse(storage.findByFullName(nameClient).isEmpty());
         assertFalse(storage.findByFullName("labrador").isEmpty());
+        storage.deletePetCurrentClient(id,"labrador");
+        storage.deleteClient(id);
         storage.close();
     }
 
@@ -36,6 +38,7 @@ public class JdbcStorageTest {
         String nameClient = "TestClient";
         String id = storage.generateId();
         String editedName="EditedClient";
+
         storage.addClient(new ClientModel(id,nameClient));
         assertFalse(storage.getClientById(id).getNameClient().equals(editedName));
         storage.editClient(new ClientModel(id,editedName));

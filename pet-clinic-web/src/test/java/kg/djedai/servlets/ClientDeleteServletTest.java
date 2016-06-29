@@ -38,7 +38,7 @@ public class ClientDeleteServletTest extends Mockito{
         when(request.getParameter("id")).thenReturn("1");
         when(request.getContextPath()).thenReturn("/pcw/view");
 
-        assertEquals(1,this.clinic.findByFullName("test_Client").size());
+        assertEquals("test_Client",this.clinic.getClientById("1").getNameClient() );
 
         new ClientDeleteServlet().doGet(request,response);
 

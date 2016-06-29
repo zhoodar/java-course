@@ -147,9 +147,7 @@ public class JdbcStorage implements Storage {
         String id;
         for(ClientModel client : toFill){
             id = client.getId();
-            for(Pet pet : getPetCurrentClient(id)) {
-                client.setPets(pet);
-            }
+            client.setPets(getPetCurrentClient(id));
         }
         return toFill;
     }

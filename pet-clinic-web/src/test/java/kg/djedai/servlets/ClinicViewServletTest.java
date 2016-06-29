@@ -1,6 +1,7 @@
 package kg.djedai.servlets;
 
-import kg.djedai.app.clinic.Cat;
+import kg.djedai.models.Cat;
+import kg.djedai.models.Pet;
 import kg.djedai.models.ClientModel;
 import kg.djedai.store.ClientCache;
 import org.junit.Test;
@@ -27,6 +28,8 @@ public class ClinicViewServletTest extends Mockito {
 @Test
     public void testClinicViewSearch() throws ServletException, IOException {
         this.clinic.addClient(new ClientModel("1","test_Client"));
+        Pet cat = new Cat("cat");
+        this.clinic.addPetToClient(cat,"1");
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
@@ -50,7 +53,8 @@ public class ClinicViewServletTest extends Mockito {
     @Test
     public void testClinicViewEmptySearch() throws  ServletException, IOException {
         this.clinic.addClient(new ClientModel("1","test_Client"));
-
+        Pet cat = new Cat("cat");
+        this.clinic.addPetToClient(cat,"1");
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
@@ -73,7 +77,8 @@ public class ClinicViewServletTest extends Mockito {
     @Test
     public void testClinicViewSearchContain() throws  ServletException, IOException {
         this.clinic.addClient(new ClientModel("1","test_Client"));
-
+        Pet cat = new Cat("cat");
+        this.clinic.addPetToClient(cat,"1");
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);

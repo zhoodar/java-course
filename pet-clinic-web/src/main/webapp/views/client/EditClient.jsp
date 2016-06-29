@@ -106,23 +106,21 @@
                     <td> <b>Возрасть </b> </td>
                     <td> <div style="width: 120px;"> <b>Причина</b> </div> </td>
                 </tr>
-                <form action="${pageContext.servletContext.contextPath}/client/delete" method="post">
-                    <input type="hidden" name="id" value="${client.id}">
                     <c:forEach items="${pets}" var="pet" varStatus="status">
                     <tr>
+                        <form action="${pageContext.servletContext.contextPath}/client/delete" method="post">
+                            <input type="hidden" name="id" value="${client.id}">
                         <td> ${pet.getName()}</td>
                         <td> ${pet.getClass().getSimpleName()}</td>
                         <input type="hidden" name="petName" value="${pet.getName()}">
-                        <td></td>
+                        <td> </td>
                         <td> </td>
                         <td> </td>
                         <td style="border:0"><input type="submit" value="x" class="little-button"></td>
+                        </form>
                     </tr>
                     </c:forEach>
-                </form>
             </table>
-
-
     </div>
 </div>
 </body>
