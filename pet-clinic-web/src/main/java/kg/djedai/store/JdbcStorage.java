@@ -98,13 +98,6 @@ public class JdbcStorage implements Storage {
     }
 
     @Override
-    public ClientModel getLastClient() {
-        LinkedList<ClientModel> list = new LinkedList<>();
-        list.addAll(getClients());
-        return list.getLast();
-    }
-
-    @Override
     public List<ClientModel> findByFullName(String clientName) {
         this.foundClients.clear();
         for (ClientModel client : getClients()) {

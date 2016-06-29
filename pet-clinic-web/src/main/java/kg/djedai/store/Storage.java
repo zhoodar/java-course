@@ -45,12 +45,6 @@ public interface Storage {
     public ClientModel getClientById(final String id);
 
     /**
-     *  Получить послендый добпаленого клиента
-     * @return Обеък клиент
-     */
-    public ClientModel getLastClient();
-
-    /**
      *  Найти клиента веденной
      * @param clientName полная имя
      * @return список найденных клиентов

@@ -46,10 +46,6 @@ public class ClientModel {
         return this.nameClient;
     }
 
-    public void setPets(Pet pet) {
-        this.pets.add(pet);
-    }
-
     public void setNameClient(String nameClient){
         this.nameClient = nameClient;
     }

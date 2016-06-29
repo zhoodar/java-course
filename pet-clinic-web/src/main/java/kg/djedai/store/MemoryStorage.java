@@ -6,7 +6,6 @@ import kg.djedai.models.Pet;
 import kg.djedai.models.ClientModel;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -45,13 +44,6 @@ public class MemoryStorage implements Storage {
     @Override
     public ClientModel getClientById(String id) {
         return this.clients.get(id);
-    }
-
-    @Override
-    public ClientModel getLastClient() {
-        LinkedList<ClientModel> list = new LinkedList<>();
-        list.addAll(this.getClients());
-        return list.getLast();
     }
 
     @Override

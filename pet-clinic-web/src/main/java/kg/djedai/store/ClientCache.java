@@ -48,7 +48,6 @@ public class ClientCache implements Storage{
         return this.storage.getClientById(id);
     }
 
-    @Override
     public ClientModel getLastClient(){
         return this.storage.getLastClient();
     }
