@@ -12,7 +12,7 @@ public class ClientModel {
 
     private String nameClient;
     private String id ;
-    private List<Pet> pets;
+    private List<Pet> pets = new CopyOnWriteArrayList<>();
 
     public ClientModel( String id, String nameClient) {
         this.id = id;

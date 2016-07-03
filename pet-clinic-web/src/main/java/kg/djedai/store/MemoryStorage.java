@@ -66,13 +66,14 @@ public class MemoryStorage implements Storage {
     public List<ClientModel> findByContain(String partName) {
         this.foundClient.clear();
         for (ClientModel client : getClients()) {
-            for(Pet pet: client.getPets()){
-                if(pet.getName().toLowerCase().indexOf(partName.toLowerCase())!=-1)
-                    this.foundClient.add(client);
-
-            }
             if(client.getNameClient().toLowerCase().indexOf(partName.toLowerCase())!= -1)
                 this.foundClient.add(client);
+            else {
+                for (Pet pet : client.getPets()) {
+                    if (pet.getName().toLowerCase().indexOf(partName.toLowerCase()) != -1)
+                        this.foundClient.add(client);
+                }
+            }
         }
         return this.foundClient;
     }
@@ -89,6 +90,9 @@ public class MemoryStorage implements Storage {
     @Override
     public void addPetToClient(Pet pet,String idClient) {
         List<Pet> pets = new CopyOnWriteArrayList<>();
+        if(!getClientById(idClient).getPets().isEmpty()) {
+            pets.addAll(getClientById(idClient).getPets());
+        }
         pets.add(pet);
         getClientById(idClient).setPets(pets);
     }

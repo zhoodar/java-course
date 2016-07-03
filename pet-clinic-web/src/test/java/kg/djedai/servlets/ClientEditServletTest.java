@@ -79,7 +79,7 @@ public class ClientEditServletTest extends Mockito {
         verify(request, atLeast(1)).getParameter("typePet");
         verify(dispatcher).forward(request, response);
 
-        assertFalse(this.clinic.getLastClient().getPets().isEmpty());
+        assertFalse(this.clinic.getClients().iterator().next().getPets().isEmpty());
     }
 
 }
