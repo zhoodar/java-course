@@ -21,5 +21,8 @@
         <!-- List of XML mapping files -->
         <mapping resource="kg/djedai/models/ClientModel.hbm.xml"/>
         <mapping resource="kg/djedai/models/Pet.hbm.xml"/>
+        <mapping resource="kg/djedai/models/User.hbm.xml"/>
+        <mapping resource="kg/djedai/models/Role.hbm.xml"/>
+        <mapping resource="kg/djedai/models/Message.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

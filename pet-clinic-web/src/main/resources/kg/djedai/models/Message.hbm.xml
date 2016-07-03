@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD/EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="kg.djedai.models.Message" table="messages">
+        <meta attribute="class-description">
+            This class contains the messages to users
+        </meta>
+        <id name="id" type="int" column="uid">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="user" column="user_id" class="kg.djedai.models.User" cascade="all"/>
+        <property name="text" type="string" column="text"/>
+    </class>
+</hibernate-mapping>
