@@ -7,6 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,96 +20,55 @@ import java.util.List;
  * @author Zhoodar
  * @since 23.06.2016.
  */
+@Repository
 public class HibernateStorage implements Storage {
 
-    private final SessionFactory factory;
+    private final HibernateTemplate template;
 
-    public HibernateStorage(){
-        factory = new Configuration().configure().buildSessionFactory();
+    @Autowired
+    public HibernateStorage(HibernateTemplate template) {
+        this.template = template;
     }
 
-    /**
-     * Реализация шаблона проектирования Commander
-     * @param <E>
-     */
-    public interface Commander<E>{
-        E process(Session session);
-    }
-
-    private <E> E transaction(final Commander<E> commander){
-        final Session session = factory.openSession();
-        final Transaction tn = session.beginTransaction();
-        try{
-            return commander.process(session);
-        } finally {
-            tn.commit();
-            session.close();
-        }
-    }
     @Override
     public Collection<ClientModel> getClients() {
-        return transaction((Session session)->session.createQuery("from ClientModel ").list());
+        return (List<ClientModel>) this.template.find("from ClientModel");
     }
 
+    @Transactional
     @Override
     public void addClient(final ClientModel client) {
-        transaction(
-                (Session session)-> {
-                    session.save(client);
-                    return null;
-                }
-        );
-
+        this.template.save(client);
     }
 
+    @Transactional
     @Override
     public void editClient(final ClientModel client) {
-        transaction(
-                (Session session)-> {
-                    session.update(client);
-                    return null;
-                }
-        );
+       this.template.update(client);
     }
 
+    @Transactional
     @Override
     public void deleteClient(String id) {
-        transaction(
-                (Session session)-> {
-                    session.delete(getClientById(id));
-                    return null;
-                }
-        );
-
+        this.template.delete(getClientById(id));
     }
 
     @Override
     public ClientModel getClientById(String id) {
-        return transaction((Session session)-> session.get(ClientModel.class, id));
+        return this.template.get(ClientModel.class,id);
     }
 
     @Override
     public List<ClientModel> findByFullName(final String clientName) {
-        return transaction((Commander<List<ClientModel>>) session -> {
-            final Query query = session.createQuery(
+        return (List<ClientModel>) this.template.find(
                     "from ClientModel as client inner join  client.pets as pet on " +
-                            "client.id = pet.clientModel.id where client.nameClient =:clientName or pet.name=:name"
-            );
-            query.setString("clientName",clientName);
-            query.setString("name",clientName);
-            return query.list();
-        });
+                            "client.id = pet.clientModel.id where client.nameClient =? or pet.name=?",clientName);
     }
 
     @Override
     public List<ClientModel> findByContain(String partName) {
-        return transaction((Commander<List<ClientModel>>) session -> {
-            final Query query = session.createQuery(
-                    "from ClientModel as client where lower(client.nameClient) like lower(:partName)"
-            );
-            query.setString("partName", "%"+partName+"%");
-            return query.list();
-        });
+        return (List<ClientModel>) this.template.find(
+                    "from ClientModel as client where lower(client.nameClient) like lower(?)",partName);
     }
 
     @Override
@@ -115,37 +78,28 @@ public class HibernateStorage implements Storage {
 
     @Override
     public void close() {
-        this.factory.close();
     }
 
+    @Transactional
     @Override
     public void addPetToClient(Pet pet, String idClient) {
         pet.setClientModel(getClientById(idClient));
-        transaction(
-                (Session session) ->{
-                    session.save(pet);
-                    return null;
-                }
-        );
+        this.template.save(pet);
     }
 
     @Override
     public List<Pet> getPetCurrentClient(String idCurrentClient) {
-        return transaction((Commander<List<Pet>>) session ->{
-                    final Query query = session.createQuery("from Pet as pet where pet.clientModel =:id");
-                    query.setString("id",idCurrentClient);
-                    return query.list();
-        });
+        return (List<Pet>) this.template.find("from Pet as pet where pet.clientModel.id =?",idCurrentClient);
     }
 
+    @Transactional
     @Override
     public void deletePetCurrentClient(String idCurrentClient, String petName) {
-        transaction((Session session)->{
-            final Query query = session.createQuery("delete Pet as pet where pet.name=:name and pet.clientModel=:id ");
-            query.setString("name",petName);
-            query.setString("id",idCurrentClient);
-            query.executeUpdate();
-            return null;
-        });
+        Pet petToDelete = null;
+        for(Pet pet: getPetCurrentClient(idCurrentClient)){
+            if(pet.getName().equals(petName))
+                petToDelete=pet;
+        }
+        this.template.delete(petToDelete);
     }
 }
