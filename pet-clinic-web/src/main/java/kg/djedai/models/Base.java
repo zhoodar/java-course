@@ -5,13 +5,13 @@ package kg.djedai.models;
  * @since 02.07.2016.
  */
 public abstract class Base {
-    protected String id;
+    protected int id;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
