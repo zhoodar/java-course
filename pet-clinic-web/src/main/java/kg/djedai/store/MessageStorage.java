@@ -1,8 +1,9 @@
 package kg.djedai.store;
 
 import kg.djedai.models.Message;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,11 @@ import java.util.List;
 @Repository
 public class MessageStorage implements DAO<Message> {
 
-    private final HibernateTemplate template;
+    private HibernateTemplate template;
+
     @Autowired
-    public MessageStorage(final HibernateTemplate template) {
-        this.template = template;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.template = new HibernateTemplate(sessionFactory);
     }
 
     @Override

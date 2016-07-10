@@ -2,13 +2,9 @@ package kg.djedai.store;
 
 import kg.djedai.models.ClientModel;
 import kg.djedai.models.Pet;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +19,12 @@ import java.util.List;
 @Repository
 public class HibernateStorage implements Storage {
 
-    private final HibernateTemplate template;
+
+    private HibernateTemplate template;
 
     @Autowired
-    public HibernateStorage(HibernateTemplate template) {
-        this.template = template;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.template = new HibernateTemplate(sessionFactory);
     }
 
     @Override
@@ -62,13 +59,13 @@ public class HibernateStorage implements Storage {
     public List<ClientModel> findByFullName(final String clientName) {
         return (List<ClientModel>) this.template.find(
                     "from ClientModel as client inner join  client.pets as pet on " +
-                            "client.id = pet.clientModel.id where client.nameClient =? or pet.name=?",clientName);
+                            "client.id = pet.clientModel.id where client.nameClient =? or pet.name=?",clientName,clientName);
     }
 
     @Override
     public List<ClientModel> findByContain(String partName) {
         return (List<ClientModel>) this.template.find(
-                    "from ClientModel as client where lower(client.nameClient) like lower(?)",partName);
+                    "from ClientModel as client where lower(client.nameClient) like lower(?)", "%"+partName+"%");
     }
 
     @Override
@@ -89,17 +86,12 @@ public class HibernateStorage implements Storage {
 
     @Override
     public List<Pet> getPetCurrentClient(String idCurrentClient) {
-        return (List<Pet>) this.template.find("from Pet as pet where pet.clientModel.id =?",idCurrentClient);
+        return (List<Pet>) this.template.find("from Pet as pet where pet.clientModel.id=?",idCurrentClient);
     }
 
     @Transactional
     @Override
     public void deletePetCurrentClient(String idCurrentClient, String petName) {
-        Pet petToDelete = null;
-        for(Pet pet: getPetCurrentClient(idCurrentClient)){
-            if(pet.getName().equals(petName))
-                petToDelete=pet;
-        }
-        this.template.delete(petToDelete);
+        template.bulkUpdate("delete Pet as pet where pet.name=? and pet.clientModel.id=?",petName,idCurrentClient);
     }
 }
