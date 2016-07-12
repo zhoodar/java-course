@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Добро пожаловать!</title>
-    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/css/mainstyle.css"/>
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/mainstyle.css"/>
 </head>
 <body class="back-site">
 <div class="wrapper">
@@ -27,7 +27,7 @@
                 <input type="submit" name="search" value="Найти" class="search-button">
             </form>
         </div>
-        <a href="${pageContext.servletContext.contextPath}/view"><img src="${pageContext.request.contextPath}/images/dom_white.png"></a>
+        <a href="${pageContext.servletContext.contextPath}/index"><img src="${pageContext.request.contextPath}/resources/images/dom_white.png"></a>
     </div>
 
 
@@ -35,7 +35,7 @@
         <div class="control-panel-header"></div>
         <div class="control-panel-buttons">
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/create" method="get">
+                <form action="${pageContext.servletContext.contextPath}/clients/add" method="get">
                     <input type="submit"  value="добавить клиента" class="control-button">
                 </form>
             </div>
@@ -45,7 +45,7 @@
                 </form>
             </div>
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/view" method="post">
+                <form action="${pageContext.servletContext.contextPath}/clients/view" method="get">
                     <input type="submit"   value=" показать всех " class="control-button" >
                 </form>
             </div>
@@ -64,9 +64,9 @@
             <c:forEach items="${clients}" var="client" varStatus="status">
                 <tr>
                     <td >${client.id} </td>
-                    <td ><a href="${pageContext.servletContext.contextPath}/client/edit?id=${client.id}">${client.nameClient}</a> </td>
+                    <td ><a href="${pageContext.servletContext.contextPath}/clients/edit?id=${client.id}">${client.nameClient}</a> </td>
                     <td >${client.getPets().size()}</td>
-                    <td style="border:0"><a href="${pageContext.servletContext.contextPath}/client/delete?id=${client.id}"><font style="color: red;">x</font>  </a></td>
+                    <td style="border:0"><a href="${pageContext.servletContext.contextPath}/clients/delete?id=${client.id}"><font style="color: red;">x</font>  </a></td>
                 </tr>
             </c:forEach>
         </table>

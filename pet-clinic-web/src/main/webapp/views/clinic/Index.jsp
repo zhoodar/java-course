@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>Добро пожаловать!</title>
-    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/css/mainstyle.css"/>
+    <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mainstyle.css"/>"/>
 </head>
 <body class="back-site">
 <div class="wrapper">
@@ -21,14 +21,14 @@
 
     <div class="search-panel">
         <div>
-            <form action="${pageContext.servletContext.contextPath}/view" method="post">
+            <form action="${pageContext.servletContext.contextPath}/search" method="post">
                 <label>Поиск клиента </label>
                 <input type="text" name="name" class="search-text" >
-                <input type="checkbox"  name="typeSearch" class="search-checkbox"> <label>полное</label>
+                <input type="checkbox"  name="typeSearch" value="off" class="search-checkbox"> <label>полное</label>
                 <input type="submit" name="search" value="Найти" class="search-button">
             </form>
         </div>
-        <a href="${pageContext.servletContext.contextPath}/view"><img src="${pageContext.request.contextPath}/images/dom_white.png"></a>
+        <a href="${pageContext.servletContext.contextPath}/index"><img src="${pageContext.request.contextPath}/resources/images/dom_white.png"></a>
     </div>
 
 
@@ -36,7 +36,7 @@
         <div class="control-panel-header"></div>
         <div class="control-panel-buttons">
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/create" method="get">
+                <form action="${pageContext.servletContext.contextPath}/clients/add" method="get">
                     <input type="submit"  value="добавить клиента" class="control-button">
                 </form>
             </div>
@@ -46,7 +46,7 @@
                 </form>
             </div>
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/view" method="post">
+                <form action="${pageContext.servletContext.contextPath}/clients/view" method="get">
                     <input type="submit"   value=" показать всех " class="control-button" >
                 </form>
             </div>
@@ -71,7 +71,7 @@
                             <tr>
                                 <td>${result.nameClient} </td>
                                 <td >${result.getPets().size()}</td>
-                                <td><a href="${pageContext.servletContext.contextPath}/client/edit?id=${result.id}">edit</a></td>
+                                <td><a href="${pageContext.servletContext.contextPath}/clients/edit?id=${result.id}">edit</a></td>
                             </tr>
                         </c:forEach>
                     </table>

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Добро пожаловать!</title>
-    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/css/mainstyle.css"/>
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/mainstyle.css"/>
 </head>
 <body class="back-site">
 <div class="wrapper">
@@ -27,7 +27,7 @@
                 <input type="submit" name="search" value="Найти" class="search-button">
             </form>
         </div>
-        <a href="${pageContext.servletContext.contextPath}/view"><img src="${pageContext.request.contextPath}/images/dom_white.png"></a>
+        <a href="${pageContext.servletContext.contextPath}/index"><img src="${pageContext.request.contextPath}/resources/images/dom_white.png"></a>
     </div>
 
 
@@ -35,7 +35,7 @@
         <div class="control-panel-header"></div>
         <div class="control-panel-buttons">
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/create" method="get">
+                <form action="${pageContext.servletContext.contextPath}/clients/add" method="get">
                     <input type="submit"  value="добавить клиента" class="control-button">
                 </form>
             </div>
@@ -45,7 +45,7 @@
                 </form>
             </div>
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/view" method="post">
+                <form action="${pageContext.servletContext.contextPath}/clients/view" method="get">
                     <input type="submit"   value=" показать всех " class="control-button" >
                 </form>
             </div>
@@ -58,7 +58,7 @@
 
         <h3>Редактировать клиента</h3>
         <div class="edit-content">
-            <form action="${pageContext.servletContext.contextPath}/client/edit" method="POST">
+            <form action="${pageContext.servletContext.contextPath}/clients/edit" method="POST">
                 <input type="hidden" name="id" value="${client.id}">
                 <table>
                     <tr>
@@ -78,7 +78,7 @@
         </div>
         <div class="form-div">
             <b>Добавить нового животного к клиенту</b>
-                <form action="${pageContext.servletContext.contextPath}/client/edit" method="POST">
+                <form action="${pageContext.servletContext.contextPath}/add/pet" method="POST">
                     <input type="hidden" name="id" value="${client.id}">
                     <div>
                         <label> Имя питомца: </label>
@@ -108,7 +108,7 @@
                 </tr>
                     <c:forEach items="${pets}" var="pet" varStatus="status">
                     <tr>
-                        <form action="${pageContext.servletContext.contextPath}/client/delete" method="post">
+                        <form action="${pageContext.servletContext.contextPath}/delete/pet" method="post">
                             <input type="hidden" name="id" value="${client.id}">
                         <td> ${pet.getName()}</td>
                         <td> ${pet.getClass().getSimpleName()}</td>

@@ -9,8 +9,8 @@
 <html>
 <head>
     <title>Добро пожаловать!</title>
-    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/css/mainstyle.css"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.2.min.js"></script>
+    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/mainstyle.css"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript">
         function createClient() {
             if (validate()) {
@@ -48,7 +48,7 @@
                 <input type="submit" name="search" value="Найти" class="search-button">
             </form>
         </div>
-        <a href="${pageContext.servletContext.contextPath}/view"><img src="${pageContext.request.contextPath}/images/dom_white.png"></a>
+        <a href="${pageContext.servletContext.contextPath}/index"><img src="${pageContext.request.contextPath}/resources/images/dom_white.png"></a>
     </div>
 
 
@@ -56,7 +56,7 @@
         <div class="control-panel-header"></div>
         <div class="control-panel-buttons">
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/create" method="get">
+                <form action="${pageContext.servletContext.contextPath}/clients/add" method="get">
                     <input type="submit"  value="добавить клиента" class="control-button">
                 </form>
             </div>
@@ -66,7 +66,7 @@
                 </form>
             </div>
             <div>
-                <form action="${pageContext.servletContext.contextPath}/client/view" method="post">
+                <form action="${pageContext.servletContext.contextPath}/clients/view" method="get">
                     <input type="submit"   value=" показать всех " class="control-button" >
                 </form>
             </div>
@@ -78,7 +78,7 @@
 
         <h3>Добавить клиента</h3>
         <div class="form-div">
-        <form action="${pageContext.servletContext.contextPath}/client/create" method="post">
+        <form action="${pageContext.servletContext.contextPath}/new" method="post">
             <div>
                 <label> Имя клиента: </label>
                 <input type="text" name="nameClient" id="nameClient" class="content-text">
@@ -89,9 +89,9 @@
             </div>
             <div>
                 <label>Выберите вид питомца: </label>
-                <select  name="typePet" class="content-dropdown">
-                    <option value="cat">Кошка</option>
-                    <option value="dog">Собака</option>
+                <select  name="type" class="content-dropdown">
+                    <option value="2">Кошка</option>
+                    <option value="1">Собака</option>
                 </select>
             </div>
             <div  >
