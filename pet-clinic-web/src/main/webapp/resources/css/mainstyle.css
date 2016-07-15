@@ -176,3 +176,99 @@
 .edit-content div {
     padding-top:15px;
 }
+
+#form_container{
+    width: 340px;
+    height: 280px;
+    margin: auto;
+    margin-top:10px;;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+#form_container form {
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#form_container label {
+    color: #555;
+    display: inline-block;
+    margin-left: 18px;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+#form_container input {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px;
+    outline: none;
+    background-color:#FBFBFB;
+}
+
+#form_container input[type=text],
+#form_container input[type=password] {
+    color: #777;
+    padding-left: 10px;
+    margin: 10px;
+    margin-top: 12px;
+    margin-left: 18px;
+    width: 290px;
+    height: 35px;
+    border: 1px solid #c7d0d2;
+    border-radius: 2px;
+}
+
+#form_container input[type=text]:focus,
+#form_container input[type=password]:focus {
+    border: 1px solid #a8c9e4;
+    box-shadow: inset 0 1.5px 1px rgba(190, 190, 190, .4), 0 0 0 2px #e6f2f9;
+}
+
+#inner_form_container{
+    background: #D1FED8;
+    width: 100%;
+    height: 73px;
+    margin-top: 20px;
+    box-shadow: inset 0 1px 1px #fff;
+    border-top: 1px solid #ccc;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#inner_form_container input[type=checkbox] {
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+.check {
+    margin-left: 3px;
+    font-size: 11px;
+    color: #444;
+    text-shadow: 0 1px 0 #fff;
+}
+
+#inner_form_container input[type=submit] {
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+    width: 120px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color:#49D39C;
+    border-radius: 3px;
+    border: 1px solid #49D39C;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .5);
+    cursor: pointer;
+}
+
+#inner_form_container input[type=submit]:hover {
+    background-color:#49D36C;
+}
+.error{
+    margin: 100px 60px 0 280px;
+    color: #ff0000;
+    font-size: 17px;
+}
