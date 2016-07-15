@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -37,18 +39,18 @@ public class ClinicController {
         this.isSearching=false;
         return "clinic/Index";
     }
-    @RequestMapping(value = "/clients/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/clients", method = RequestMethod.GET)
     public String showClients(ModelMap model){
         model.addAttribute("clients",factory.hibernateStorage.getClients());
         return "client/ClientView";
     }
 
-    @RequestMapping(value = "clients/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add/client", method = RequestMethod.GET)
     public String getAddClient(){
         return "client/CreateClient";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/client", method = RequestMethod.POST)
     public String addClient(@RequestParam("nameClient")String nameClient ,
                             @RequestParam("namePet")String namePet,
                             @RequestParam("type")String type ){
@@ -57,7 +59,7 @@ public class ClinicController {
         Pet pet = createPet(type,namePet);
         factory.hibernateStorage.addClient(client);
         factory.hibernateStorage.addPetToClient(pet,id);
-        return "redirect:/clients/view";
+        return "redirect:/view/clients";
     }
 
     private Pet createPet(String type , String namePet) {
@@ -69,17 +71,17 @@ public class ClinicController {
         return pet;
     }
 
-    @RequestMapping(value = "/clients/edit",method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/client",method = RequestMethod.GET)
     public String getEditClient(@RequestParam(value="id", required=true) String id, ModelMap model){
         model.addAttribute("client",factory.hibernateStorage.getClientById(id));
         model.addAttribute("pets",factory.hibernateStorage.getPetCurrentClient(id));
         return "client/EditClient";
     }
 
-    @RequestMapping(value = "/clients/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/client", method = RequestMethod.POST)
     public String saveEdit(@ModelAttribute ClientModel client){
         this.factory.hibernateStorage.editClient(client);
-        return "redirect:/clients/view";
+        return "redirect:/view/clients";
     }
 
     @RequestMapping(value = "/add/pet",method = RequestMethod.POST)
@@ -89,13 +91,13 @@ public class ClinicController {
         Pet pet = createPet(type,name);
         this.factory.hibernateStorage.addPetToClient(pet,id);
         model.addAttribute("id",id);
-        return "redirect:/clients/edit";
+        return "redirect:/edit/client";
     }
 
-    @RequestMapping(value = "/clients/delete",method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/client",method = RequestMethod.GET)
     public String deleteClient(@RequestParam(value="id") String id){
         factory.hibernateStorage.deleteClient(id);
-        return "redirect:/clients/view";
+        return "redirect:/view/client";
     }
 
     @RequestMapping(value = "/delete/pet",method = RequestMethod.POST)
@@ -103,7 +105,7 @@ public class ClinicController {
                                   @RequestParam("petName")String name, ModelMap model){
         factory.hibernateStorage.deletePetCurrentClient(id,name);
         model.addAttribute("id",id);
-        return "redirect:/clients/edit";
+        return "redirect:/edit/client";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -111,11 +113,14 @@ public class ClinicController {
         this.isSearching = true;
         this.foundClient.clear();
         String toSearch = request.getParameter("name");
-        if(request.getParameter("typeSearch")!=null){
-            this.foundClient.addAll(this.factory.hibernateStorage.findByFullName(toSearch));
-        } else {
-            this.foundClient.addAll(this.factory.hibernateStorage.findByContain(toSearch));
+        if(toSearch!=null) {
+            if (request.getParameter("typeSearch") != null) {
+                this.foundClient.addAll(this.factory.hibernateStorage.findByFullName(toSearch));
+            } else {
+                this.foundClient.addAll(this.factory.hibernateStorage.findByContain(toSearch));
+            }
         }
         return "redirect:/index";
     }
+
 }

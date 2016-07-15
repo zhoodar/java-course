@@ -25,6 +25,7 @@
                 <label>Поиск клиента </label>
                 <input type="text" name="name" class="search-text" >
                 <input type="checkbox"  name="typeSearch" value="off" class="search-checkbox"> <label>полное</label>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="submit" name="search" value="Найти" class="search-button">
             </form>
         </div>
@@ -36,7 +37,7 @@
         <div class="control-panel-header"></div>
         <div class="control-panel-buttons">
             <div>
-                <form action="${pageContext.servletContext.contextPath}/clients/add" method="get">
+                <form action="${pageContext.servletContext.contextPath}/add/client" method="get">
                     <input type="submit"  value="добавить клиента" class="control-button">
                 </form>
             </div>
@@ -46,8 +47,17 @@
                 </form>
             </div>
             <div>
-                <form action="${pageContext.servletContext.contextPath}/clients/view" method="get">
+                <form action="${pageContext.servletContext.contextPath}/view/clients" method="get">
                     <input type="submit"   value=" показать всех " class="control-button" >
+                </form>
+            </div>
+            <form action="${pageContext.servletContext.contextPath}/j_spring_security_logout" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input type="submit" value="Выйти" class="control-button">
+            </form>
+            <div>
+                <form action="${pageContext.servletContext.contextPath}/admin/users" method="get">
+                    <input type="submit"   value="в админ" class="control-button" >
                 </form>
             </div>
         </div>
@@ -71,7 +81,7 @@
                             <tr>
                                 <td>${result.nameClient} </td>
                                 <td >${result.getPets().size()}</td>
-                                <td><a href="${pageContext.servletContext.contextPath}/clients/edit?id=${result.id}">edit</a></td>
+                                <td><a href="${pageContext.servletContext.contextPath}/edit/client?id=${result.id}">edit</a></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -82,7 +92,7 @@
             </c:choose>
         </c:if>
         <c:if test="${content == false}">
-            <p> Добро пожаловать на webapp Клиника питомцов!</p>
+            <p> Добро пожаловать на webapp, менеджер Клиника питомцов!</p>
         </c:if>
     </div>
 
