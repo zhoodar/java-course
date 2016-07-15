@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+        <http>
+            <intercept-url pattern="/index" access="permitAll"/>
+            <intercept-url pattern="/add/*" access="hasRole('ROLE_ADMIN')"/>
+            <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+
+            <access-denied-handler error-page="/accessDenied" />
+
+            <form-login login-page="/login"
+                        default-target-url="/index"
+                        username-parameter="j_username"
+                        password-parameter="j_password"
+                        login-processing-url="/j_spring_security_check"
+                        authentication-failure-url="/login?error=true"/>
+
+            <logout logout-url="/j_spring_security_logout" logout-success-url="/login?logout" invalidate-session="true" />
+
+        </http>
+
+    <authentication-manager>
+        <authentication-provider ref="provider" />
+    </authentication-manager>
+
+    <beans:bean id="provider" class="kg.djedai.service.CustomAuthenticationProvider"/>
+
+</beans:beans>

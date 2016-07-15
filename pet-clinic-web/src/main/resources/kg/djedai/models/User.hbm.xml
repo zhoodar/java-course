@@ -14,7 +14,7 @@
         <property name="login" column="login" type="string"/>
         <property name="password" column="password" type="string"/>
         <property name="email" column="email" type="string"/>
-        <many-to-one name="role" column="role_id" class="kg.djedai.models.Role" cascade="save-update"/>
+        <many-to-one name="role"  lazy="false" column="role_id" class="kg.djedai.models.Role" cascade="save-update"/>
         <set name="messages" table="messages" lazy="false" inverse="true" cascade="all">
             <key column="user_id" not-null="true"/>
             <one-to-many class="kg.djedai.models.Message"/>
