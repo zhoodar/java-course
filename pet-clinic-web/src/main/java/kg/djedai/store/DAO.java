@@ -44,9 +44,10 @@ public interface DAO<T> {
     /**
      *
      * @param toSearch
+     * @param password
      * @return
      */
-    T findBy(final String toSearch);
+    T findBy(final String toSearch, String password);
 
     /**
      *

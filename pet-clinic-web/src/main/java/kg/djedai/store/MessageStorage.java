@@ -53,7 +53,7 @@ public class MessageStorage implements DAO<Message> {
     }
 
     @Override
-    public Message findBy(String toSearch) {
+    public Message findBy(String toSearch, String password) {
         return null;
     }
 

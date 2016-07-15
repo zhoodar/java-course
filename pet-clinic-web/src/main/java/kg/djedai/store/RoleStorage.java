@@ -55,7 +55,7 @@ public class RoleStorage implements RoleDAO {
     }
 
     @Override
-    public Role findBy(String toSearch) {
+    public Role findBy(String toSearch, String password) {
         return (Role) this.template.find("from Role as role where role.name=?",toSearch).iterator().next();
     }
 

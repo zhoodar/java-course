@@ -4,6 +4,7 @@ import kg.djedai.models.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +54,11 @@ public class UserStorage implements UserDAO {
     }
 
     @Override
-    public User findBy(String toSearch) {
-        return (User) this.template.find("from User as user where user.login=?",toSearch).iterator().next();
+    public User findBy(String toSearch, String password){
+        List user = this.template.find("from User as user where user.login=? and user.password=?",toSearch,password);
+        if(!user.isEmpty())
+            return (User) user.iterator().next();
+        return null;
     }
 
     @Override
