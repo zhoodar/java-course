@@ -1,5 +1,6 @@
 package kg.djedai.controllers;
 
+import kg.djedai.models.Role;
 import kg.djedai.models.User;
 import kg.djedai.store.DAOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 
@@ -36,8 +38,18 @@ public class AdminController {
         return "admin/add";
     }
 
-    @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
-    public String AddUser(@ModelAttribute User user){
+    @RequestMapping(value = "admin/add", method = RequestMethod.POST)
+    public String addUser(HttpServletRequest request){
+        String login = request.getParameter("login");
+        String password =request.getParameter("password");
+        String email =request.getParameter("email");
+        String roleId =request.getParameter("role");
+        Role role = this.factory.roleStorage.read(Integer.parseInt(roleId));
+        User user = new User();
+        user.setRole(role);
+        user.setEmail(email);
+        user.setLogin(login);
+        user.setPassword(password);
         this.factory.userStorage.create(user);
         return "redirect:/admin/users";
     }
@@ -49,7 +61,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/edit/user",method = RequestMethod.POST)
-    public String editUser(@ModelAttribute User user){
+    public String editUser(@RequestParam String login, @RequestParam String password, @RequestParam int id){
+        User user = this.factory.userStorage.read(id);
+        user.setPassword(password);
+        user.setLogin(login);
         this.factory.userStorage.update(user);
         return "redirect:/admin/users";
     }
@@ -57,7 +72,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/delete/user",method = RequestMethod.GET)
     public String deleteUser(@RequestParam("id") Integer id){
         this.factory.userStorage.delete(id);
-        return "redirect:/admin";
+        return "redirect:/admin/users";
     }
 
     @RequestMapping(value = {"/","/login" },method = RequestMethod.GET)
