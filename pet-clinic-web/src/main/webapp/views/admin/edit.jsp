@@ -38,7 +38,7 @@
                 <a href="${pageContext.servletContext.contextPath}/admin/add">add user</a>
             </div>
             <div>
-                <a href="${pageContext.servletContext.contextPath}/admin">users</a>
+                <a href="${pageContext.servletContext.contextPath}/admin/users">users</a>
             </div>
             <form action="${pageContext.servletContext.contextPath}/j_spring_security_logout" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -58,8 +58,8 @@
                         <td> password </td>
                     </tr>
                     <tr>
-                        <td> <input type="text" name="nameClient" value="${user.login}" class="content-text"></td>
-                        <td> <input type="password" name="nameClient" value="${user.password}" class="content-text"></td>
+                        <td> <input type="text" name="login" value="${user.login}" class="content-text"></td>
+                        <td> <input type="password" name="password" value="${user.password}" class="content-text"></td>
                     </tr>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </table>
